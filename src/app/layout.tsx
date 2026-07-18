@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, JetBrains_Mono } from "next/font/google";
+import { Manrope, Playfair_Display, JetBrains_Mono, Sora } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import CursorTrail from "@/components/ui/CursorTrail";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
-const inter = Inter({
-  variable: "--font-inter",
+const inter = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
   display: "swap",
 });
@@ -20,6 +20,12 @@ const playfair = Playfair_Display({
 
 const jetbrains = JetBrains_Mono({
   variable: "--font-jetbrains",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const sora = Sora({
+  variable: "--font-sora",
   subsets: ["latin"],
   display: "swap",
 });
@@ -43,6 +49,10 @@ export const metadata: Metadata = {
     "API integrations",
   ],
   authors: [{ name: "Ace Tech Solutions" }],
+  icons: {
+    icon: "/icon.svg",
+    apple: "/icon.svg",
+  },
   openGraph: {
     type: "website",
     url: siteUrl,
@@ -50,12 +60,14 @@ export const metadata: Metadata = {
     title: "Ace Tech Solutions — We Build Digital Products",
     description:
       "A premium technology partner. We build digital products, scale engineering, and ship fast.",
+    images: [{ url: "/logo/ace-core-poster.png", width: 1080, height: 1080, alt: "The Ace Core — Ace Tech Solutions mark" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Ace Tech Solutions — We Build Digital Products",
     description:
       "A premium technology partner. We build digital products, scale engineering, and ship fast.",
+    images: ["/logo/ace-core-poster.png"],
   },
   robots: { index: true, follow: true },
 };
@@ -66,7 +78,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${playfair.variable} ${jetbrains.variable}`}
+      className={`${inter.variable} ${playfair.variable} ${jetbrains.variable} ${sora.variable}`}
     >
       <body className="min-h-screen bg-void font-sans text-ice antialiased">
         <SmoothScroll>

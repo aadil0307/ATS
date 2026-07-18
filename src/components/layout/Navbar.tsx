@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import Button from "@/components/ui/Button";
+import Logo from "@/components/layout/Logo";
 
 const LINKS = [
   { href: "/", label: "Home" },
@@ -39,14 +40,7 @@ export default function Navbar() {
       )}
     >
       <nav className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6 sm:h-20 sm:px-10">
-        <Link href="/" className="group flex items-center gap-2.5" aria-label="Ace Tech Solutions home">
-          <span className="grid h-8 w-8 place-items-center rounded-md bg-[var(--ace-gradient)] font-display text-lg font-black text-ice">
-            A
-          </span>
-          <span className="font-display text-lg font-bold tracking-tight text-ice">
-            Ace<span className="text-blue">Tech</span>
-          </span>
-        </Link>
+        <Logo variant="full" />
 
         <div className="hidden items-center gap-1 md:flex">
           {LINKS.map((l) => (

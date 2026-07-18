@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Button from "@/components/ui/Button";
+import Logo from "@/components/layout/Logo";
 
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "919690000000";
 const YEAR = 2026;
@@ -35,14 +36,7 @@ export default function Footer() {
     <footer className="relative border-t border-white/10 bg-ink-soft/60">
       <div className="mx-auto grid max-w-[1100px] gap-12 px-6 py-16 sm:px-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
         <div>
-          <div className="flex items-center gap-2.5">
-            <span className="grid h-8 w-8 place-items-center rounded-md bg-[var(--ace-gradient)] font-display text-lg font-black text-ice">
-              A
-            </span>
-            <span className="font-display text-lg font-bold text-ice">
-              Ace<span className="text-blue">Tech</span>
-            </span>
-          </div>
+          <Logo variant="full" />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-silver">
             A premium technology partner. We build digital products,
             scale engineering, and ship fast.
