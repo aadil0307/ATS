@@ -1,26 +1,199 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ══════════════════════════════════════════════════════
+   ACE TECH SOLUTIONS — DESIGN TOKENS (Tailwind v4 @theme)
+   ══════════════════════════════════════════════════════ */
+@theme {
+  /* Color system — dark "cosmic" palette */
+  --color-void: #0a0a0f;
+  --color-ink: #0a0a0f;
+  --color-ink-soft: #1c1c2e;
+  --color-ink-muted: #3d3d5c;
+  --color-silver: #8b8ba7;
+  --color-border: #e2e2f0;
+  --color-bg: #fafaff;
+  --color-bg-card: #ffffff;
+
+  --color-blue: #1a1aff;
+  --color-violet: #7b2fff;
+  --color-cyan: #00d4ff;
+  --color-ice: #fafaff;
+  --color-gold: #ffb800;
+  --color-success: #00c27a;
+  --color-danger: #ff3b5c;
+
+  /* Fonts — wired from next/font in layout.tsx */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
+
+  /* Radius scale (Rule §07) */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 100px;
+
+  /* Signature gradient */
+  --ace-gradient: linear-gradient(135deg, #1a1aff 0%, #7b2fff 50%, #00d4ff 100%);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ════════════════════════════ BASE ════════════════════════════ */
+* {
+  border-color: color-mix(in oklab, var(--color-border) 14%, transparent);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  background: var(--color-void);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-void);
+  color: var(--color-ice);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-violet) 40%, transparent);
+  color: var(--color-ice);
+}
+
+/* ════════════════════════ UTILITY LAYERS ════════════════════════ */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+.text-gradient {
+  background: var(--ace-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.glow-accent {
+  box-shadow:
+    0 0 40px rgba(26, 26, 255, 0.25),
+    0 0 90px rgba(123, 47, 255, 0.16);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 50px rgba(0, 212, 255, 0.28);
+}
+
+/* Morphing aurora blob — behind key sections */
+.aurora {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.55;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(26, 26, 255, 0.55), transparent 60%),
+    radial-gradient(circle at 70% 60%, rgba(123, 47, 255, 0.5), transparent 60%),
+    radial-gradient(circle at 50% 80%, rgba(0, 212, 255, 0.45), transparent 60%);
+  animation: aurora-shift 14s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes aurora-shift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(4%, -3%, 0) scale(1.08);
+  }
+  66% {
+    transform: translate3d(-3%, 4%, 0) scale(0.96);
+  }
+}
+
+/* Fine grain overlay — fixed, non-interactive */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Conic grid backdrop (cosmic bridge feel) */
+.grid-backdrop {
+  background-image:
+    linear-gradient(rgba(26, 26, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 26, 255, 0.08) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(circle at 50% 40%, black, transparent 75%);
+  -webkit-mask-image: radial-gradient(circle at 50% 40%, black, transparent 75%);
+}
+
+/* ════════════════════════ SCROLLBAR ════════════════════════ */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-ink-muted);
+  border-radius: 100px;
+  border: 2px solid var(--color-void);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-violet);
+}
+
+/* ════════════════════════ LENIS SMOOTH SCROLL ════════════════════════ */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ════════════════════════ REDUCED MOTION ════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .aurora {
+    animation: none;
+  }
+}
+
+/* ══════════════════════ AUTO-SCROLL TICKER ══════════════════════ */
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 32s linear infinite;
+}
+.ticker-mask:hover .ticker-track {
+  animation-play-state: paused;
 }
