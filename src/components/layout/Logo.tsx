@@ -109,7 +109,7 @@ export default function Logo({
       <LogoMark className="h-9 w-9 transition-transform duration-500 group-hover:rotate-[16deg]" />
       <span className="leading-none">
         <span className="block font-logo text-lg font-bold tracking-tight text-ice">
-          ACE<span className="text-blue"> TECH</span>
+          ACE<span className="text-blue-bright"> TECH</span>
         </span>
         <span className="block font-logo text-[10px] font-medium uppercase tracking-[0.24em] text-silver">
           Solutions

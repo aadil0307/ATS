@@ -81,11 +81,16 @@ export default function RootLayout({
       className={`${inter.variable} ${playfair.variable} ${jetbrains.variable} ${sora.variable}`}
     >
       <body className="min-h-screen bg-void font-sans text-ice antialiased">
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
         <SmoothScroll>
           <div className="grain" aria-hidden="true" />
           <CursorTrail />
           <Navbar />
-          <main className="relative z-10">{children}</main>
+          <main id="main" className="relative z-10">
+            {children}
+          </main>
           <Footer />
         </SmoothScroll>
       </body>

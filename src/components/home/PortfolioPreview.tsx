@@ -2,62 +2,7 @@ import Link from "next/link";
 import Section from "@/components/ui/Section";
 import Reveal from "@/components/ui/Reveal";
 import Tag from "@/components/ui/Tag";
-
-type Metric = [string, string];
-
-const CASES: {
-  title: string;
-  client: string;
-  summary: string;
-  metrics: Metric[];
-  tags: string[];
-}[] = [
-  {
-    title: "Fintech Super App",
-    client: "Ledgerly",
-    summary:
-      "Unified payments + banking wallet for 2M users, rebuilt on a single Next.js platform.",
-    metrics: [
-      ["2M", "users"],
-      ["40%", "faster onboarding"],
-      ["6 wks", "to delivery"],
-    ],
-    tags: ["Web/App", "Cloud"],
-  },
-  {
-    title: "AI Ops Copilot",
-    client: "Northwind",
-    summary:
-      "LLM agent that triages incidents and drafts runbooks, wired into their on-call flow.",
-    metrics: [
-      ["60%", "less MTTR"],
-      ["3x", "throughput"],
-    ],
-    tags: ["AI", "API"],
-  },
-  {
-    title: "D2C Commerce Platform",
-    client: "Maison",
-    summary:
-      "Headless storefront with sub-second navigation and a 3x lift in conversion.",
-    metrics: [
-      ["3x", "conversion"],
-      ["99.99%", "uptime"],
-    ],
-    tags: ["Web", "DevOps"],
-  },
-  {
-    title: "Health Telemetry Grid",
-    client: "Vitalink",
-    summary:
-      "Real-time IoT dashboard ingesting 1.2M events/min with live alerting.",
-    metrics: [
-      ["1.2M", "events/min"],
-      ["<50ms", "p99 latency"],
-    ],
-    tags: ["Cloud", "UI/UX"],
-  },
-];
+import { CASES } from "@/lib/content/cases";
 
 export default function PortfolioPreview() {
   return (
@@ -107,7 +52,7 @@ export default function PortfolioPreview() {
       <Reveal className="mt-10 text-center">
         <Link
           href="/portfolio"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-blue transition-transform hover:translate-x-1"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-blue-bright transition-transform hover:translate-x-1"
         >
           View all case studies <span aria-hidden="true">→</span>
         </Link>

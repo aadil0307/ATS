@@ -102,7 +102,7 @@ export default function Navbar() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="font-display text-4xl font-bold text-ice transition-colors hover:text-blue"
+              className="font-display text-4xl font-bold text-ice transition-colors hover:text-blue-bright"
             >
               {l.label}
             </Link>

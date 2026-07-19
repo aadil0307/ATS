@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 type Variant = "blue" | "violet" | "cyan" | "gold" | "success" | "danger";
 
 const variantMap: Record<Variant, string> = {
-  blue: "bg-blue/10 text-blue",
+  blue: "bg-blue/10 text-blue-bright",
   violet: "bg-violet/10 text-violet",
   cyan: "bg-cyan/10 text-cyan",
   gold: "bg-gold/10 text-gold",

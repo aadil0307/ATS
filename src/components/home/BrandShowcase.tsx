@@ -23,7 +23,7 @@ export default function BrandShowcase() {
   return (
     <section className="relative border-y border-white/10 bg-ink-soft/40 py-20">
       <div className="mx-auto max-w-[1100px] px-6 text-center sm:px-10">
-        <p className="mb-3 text-xs font-bold uppercase tracking-[0.14em] text-blue">
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.14em] text-blue-bright">
           Our Mark
         </p>
         <h2 className="font-display text-3xl font-black text-ice sm:text-4xl">

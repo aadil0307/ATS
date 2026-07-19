@@ -177,7 +177,7 @@ export default function ContactPage() {
 
       <div className="relative mx-auto max-w-[1100px] px-6 sm:px-10">
         <Reveal className="mb-12 max-w-2xl">
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.14em] text-blue">
+          <p className="mb-4 text-xs font-bold uppercase tracking-[0.14em] text-blue-bright">
             Let&apos;s Talk
           </p>
           <h1 className="font-display text-5xl font-black leading-tight text-ice sm:text-6xl">
@@ -390,7 +390,7 @@ function Field({
     <label className="block">
       <span className="mb-2 flex items-center justify-between text-sm font-medium text-ice">
         {label}
-        {required && <span className="text-blue">*</span>}
+        {required && <span className="text-blue-bright">*</span>}
         {hint && <span className="font-mono text-xs text-silver">{hint}</span>}
       </span>
       {children}

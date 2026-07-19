@@ -9,8 +9,6 @@ const img = await loadImage(join(__dirname, "framesVoid", "frame075.png"));
 const c = createCanvas(img.width, img.height);
 const ctx = c.getContext("2d");
 ctx.drawImage(img, 0, 0);
-const W = img.width, H = img.height;
-
 // A geometry must match render.mjs (SIZE=1080, CX=CY=540, W=240,H=340)
 const cx = 540, cy = 432, Aw = 240, Ah = 340;
 const apex = [cx, cy - Ah / 2];

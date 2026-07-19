@@ -50,9 +50,9 @@ function CountUp({
 
 const STATS = [
   { to: 120, suffix: "+", label: "Products shipped" },
-  { to: 40, suffix: "+", label: "Monthly leads target" },
-  { to: 2, prefix: "<", suffix: "s", label: "Largest Contentful Paint" },
-  { to: 100, suffix: "+", label: "Lighthouse target" },
+  { to: 40, suffix: "+", label: "Qualified leads / month" },
+  { to: 2, prefix: "<", suffix: "s", label: "Page load time" },
+  { to: 100, suffix: "+", label: "Lighthouse score" },
 ];
 
 export default function Stats() {

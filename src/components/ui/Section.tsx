@@ -27,7 +27,7 @@ export default function Section({
         {hasHeader && (
           <Reveal className="mb-14">
             {eyebrow && (
-              <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.14em] text-blue">
+              <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.14em] text-blue-bright">
                 {eyebrow}
                 <span className="h-px max-w-[60px] flex-1 bg-white/15" />
               </p>

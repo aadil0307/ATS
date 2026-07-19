@@ -2,45 +2,7 @@ import Link from "next/link";
 import Section from "@/components/ui/Section";
 import TiltCard from "@/components/ui/TiltCard";
 import Tag from "@/components/ui/Tag";
-
-const SERVICES = [
-  {
-    icon: "⚙️",
-    title: "Web & App Development",
-    desc: "Full-stack custom software, mobile apps (iOS + Android), PWAs and SaaS platforms.",
-    tag: "P0",
-  },
-  {
-    icon: "🤖",
-    title: "AI & Automation",
-    desc: "LLM integrations, workflow automation, data pipelines and ML model deployment.",
-    tag: "P0",
-  },
-  {
-    icon: "☁️",
-    title: "Cloud & DevOps",
-    desc: "AWS/GCP setup, CI/CD pipelines, Kubernetes, monitoring and cost optimization.",
-    tag: "P0",
-  },
-  {
-    icon: "🎨",
-    title: "UI/UX Design",
-    desc: "Product design, design systems, Figma prototypes, research and accessibility audits.",
-    tag: "P1",
-  },
-  {
-    icon: "🔌",
-    title: "API & Integrations",
-    desc: "Third-party integrations, payment gateways, CRMs, ERPs and custom API development.",
-    tag: "P1",
-  },
-  {
-    icon: "🛡️",
-    title: "Security & Audits",
-    desc: "Code reviews, penetration testing, GDPR/ISO compliance and security hardening.",
-    tag: "P1",
-  },
-];
+import { SERVICES } from "@/lib/content/services";
 
 export default function ServicesPreview() {
   return (
@@ -66,7 +28,7 @@ export default function ServicesPreview() {
               <p className="mt-2 text-sm leading-relaxed text-silver">
                 {s.desc}
               </p>
-              <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-blue transition-transform group-hover:translate-x-1">
+              <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-blue-bright transition-transform group-hover:translate-x-1">
                 Explore <span aria-hidden="true">→</span>
               </span>
             </Link>

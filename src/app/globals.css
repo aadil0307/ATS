@@ -9,12 +9,15 @@
   --color-ink: #0a0a0f;
   --color-ink-soft: #1c1c2e;
   --color-ink-muted: #3d3d5c;
-  --color-silver: #8b8ba7;
+  --color-silver: #a0a0c0;
   --color-border: #e2e2f0;
   --color-bg: #fafaff;
   --color-bg-card: #ffffff;
 
   --color-blue: #1a1aff;
+  /* brighter blue for TEXT on the dark bg — #1a1aff is ~2.4:1 (fails AA);
+     this clears 4.5:1. Keep --color-blue for fills/gradients. */
+  --color-blue-bright: #8b8bff;
   --color-violet: #7b2fff;
   --color-cyan: #00d4ff;
   --color-ice: #fafaff;
@@ -60,6 +63,40 @@ body {
 ::selection {
   background: color-mix(in oklab, var(--color-violet) 40%, transparent);
   color: var(--color-ice);
+}
+
+/* ═════════════════════════ ACCESSIBILITY ══════════════════════════ */
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Offset anchored sections so the fixed navbar doesn't cover them */
+:target,
+[id] {
+  scroll-margin-top: 6rem;
+}
+
+/* Skip-to-content link — hidden until focused */
+.skip-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10000;
+  padding: 0.6rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--color-violet);
+  color: var(--color-ice);
+  font-weight: 600;
+  transform: translateY(-200%);
+  transition: transform 0.2s ease;
+}
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid var(--color-ice);
+  outline-offset: 2px;
 }
 
 /* ════════════════════════ UTILITY LAYERS ════════════════════════ */
