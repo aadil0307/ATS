@@ -10,84 +10,176 @@ export type CaseStudy = {
   services: string[];
   challenge: string;
   outcome: string;
+  website?: string;
 };
 
 export const CASES: CaseStudy[] = [
   {
-    slug: "ledgerly-fintech-super-app",
-    title: "Fintech Super App",
-    client: "Ledgerly",
-    category: "Web & App",
-    year: "2025",
-    summary:
-      "Unified payments + banking wallet for 2M users, rebuilt on a single Next.js platform.",
-    metrics: [
-      ["2M", "users"],
-      ["40%", "faster onboarding"],
-      ["6 wks", "to delivery"],
-    ],
-    tags: ["Web/App", "Cloud"],
-    services: ["Web & App Development", "Cloud & DevOps"],
-    challenge:
-      "Ledgerly ran payments, wallet and banking on three legacy stacks that couldn't share data or scale past a few hundred thousand users.",
-    outcome:
-      "We rebuilt the experience on a single Next.js + API platform with a typed domain layer, cutting onboarding time by 40% and shipping the first unified release in six weeks.",
-  },
-  {
-    slug: "northwind-ai-ops-copilot",
-    title: "AI Ops Copilot",
-    client: "Northwind",
-    category: "AI & Automation",
-    year: "2025",
-    summary:
-      "LLM agent that triages incidents and drafts runbooks, wired into their on-call flow.",
-    metrics: [
-      ["60%", "less MTTR"],
-      ["3x", "throughput"],
-    ],
-    tags: ["AI", "API"],
-    services: ["AI & Automation", "API & Integrations"],
-    challenge:
-      "On-call engineers wasted hours correlating alerts across dashboards and writing runbooks by hand during incidents.",
-    outcome:
-      "A retrieval-augmented agent now triages alerts, drafts runbooks and posts a remediation plan to Slack — cutting mean-time-to-recovery by 60% and tripling incident throughput.",
-  },
-  {
-    slug: "maison-d2c-commerce",
-    title: "D2C Commerce Platform",
-    client: "Maison",
-    category: "Web & App",
+    slug: "msinterio-website",
+    title: "MSInterio",
+    client: "MSInterio Interior Design",
+    category: "Web & App Development",
     year: "2024",
     summary:
-      "Headless storefront with sub-second navigation and a 3x lift in conversion.",
+      "A turnkey interior design firm serving Mumbai, Thane and Pune needed a professional web presence to showcase their residential and commercial projects, modular kitchen work, and 3D-rendered design visualizations.",
     metrics: [
-      ["3x", "conversion"],
-      ["99.99%", "uptime"],
+      ["56", "clients served"],
+      ["23", "projects delivered"],
+      ["Mumbai", "Thane · Pune"],
     ],
-    tags: ["Web", "DevOps"],
-    services: ["Web & App Development", "Cloud & DevOps"],
+    tags: ["HTML5", "CSS3", "JavaScript"],
+    services: ["Web & App Development", "UI/UX Design"],
     challenge:
-      "Maison's monolithic storefront was slow, hard to merchandise and losing customers at every page load.",
+      "MSInterio handled every stage of a project — conceptualization, 3D visualization, onsite supervision, material selection and final installation — but had no way to show prospective clients that end-to-end portfolio online or capture inbound inquiries reliably.",
     outcome:
-      "We rebuilt it as a headless storefront on the edge with sub-second navigation, lifting conversion 3x while holding 99.99% uptime through peak sale events.",
+      "Shipped a fast, fully responsive website that walks visitors through their capabilities and project gallery, with clear service descriptions and a contact path so leads reach the studio directly.",
+    website: "https://msinterio.co",
   },
   {
-    slug: "vitalink-health-telemetry",
-    title: "Health Telemetry Grid",
-    client: "Vitalink",
-    category: "Cloud & DevOps",
+    slug: "sweezen-foundation",
+    title: "Sweezen Foundation",
+    client: "Sweezen Foundation NGO",
+    category: "Web & App Development",
     year: "2024",
     summary:
-      "Real-time IoT dashboard ingesting 1.2M events/min with live alerting.",
+      "A digital presence for a non-profit foundation, built to give the organization a credible public home for its mission, activities, and a path for supporters to get in touch.",
     metrics: [
-      ["1.2M", "events/min"],
-      ["<50ms", "p99 latency"],
+      ["Web", "public presence"],
+      ["Responsive", "across devices"],
+      ["SEO", "indexed"],
     ],
-    tags: ["Cloud", "UI/UX"],
-    services: ["Cloud & DevOps", "UI/UX Design"],
+    tags: ["JavaScript", "HTML5", "CSS3"],
+    services: ["Web & App Development", "UI/UX Design"],
     challenge:
-      "Vitalink's devices streamed telemetry faster than their dashboards could render, with alerting too slow for clinical use.",
+      "The foundation had no dedicated web presence to communicate its mission, surface its activities, or give supporters and beneficiaries a reliable way to reach them.",
     outcome:
-      "A streaming ingestion layer and a real-time dashboard now process 1.2M events/min at <50ms p99, with live alerts clinicians actually trust.",
+      "Delivered a clean, responsive website that establishes the foundation's public identity and provides a direct contact channel for inquiries and support.",
+    website: "https://sweezenfoundation.org",
+  },
+  {
+    slug: "matchunseen",
+    title: "MatchUnseen",
+    client: "Personal Project",
+    category: "Web & App Development",
+    year: "2024",
+    summary:
+      "A blind dating web app that matches people on shared values and interests rather than looks — with JWT auth, mobile OTP verification, an integrated chatbot, and real-time one-on-one messaging.",
+    metrics: [
+      ["Socket.IO", "real-time chat"],
+      ["JWT + OTP", "verified profiles"],
+      ["1:1", "matched chat"],
+    ],
+    tags: ["ReactJS", "Node.js", "MongoDB"],
+    services: ["Web & App Development", "API & Integrations"],
+    challenge:
+      "Traditional dating apps lean on superficial judgments, which shuts out users who are shy or socially anxious. The brief was to build a values-first matching experience that still felt live and immediate.",
+    outcome:
+      "Built a full-stack app on React + Node/Express with MongoDB, JWT login and mobile OTP profile verification, an embedded chatbot for common queries, and Socket.IO real-time messaging with read receipts, online status, timestamps and emoji.",
+    website: "https://github.com/aadil0307/MatchUnseen",
+  },
+  {
+    slug: "tradebridge",
+    title: "TradeBridge",
+    client: "Personal Project",
+    category: "Mobile Application",
+    year: "2024",
+    summary:
+      "A hyperlocal e-commerce Android app bridging the digital gap for street vendors — customers discover nearby vendors by category on a map, and vendors manage listings, galleries and reviews.",
+    metrics: [
+      ["2", "customer + vendor apps"],
+      ["OTP", "auth on both sides"],
+      ["200 m", "fav proximity alert"],
+    ],
+    tags: ["Java", "Firebase", "Google Maps"],
+    services: ["Mobile Application", "API & Integrations"],
+    challenge:
+      "Street vendors are largely invisible to internet commerce. The app had to connect customers with nearby vendors by category on a map while giving vendors easy listing tools and privacy control over their GPS.",
+    outcome:
+      "Shipped a two-module Android app (Java + XML) on Firebase with Google Maps: customers sign up with OTP, browse vendors on a map, favorite them for proximity notifications, and rate and review; vendors toggle GPS, manage products and pricing, and run a photo gallery.",
+    website: "https://github.com/aadil0307/TradeBridge",
+  },
+  {
+    slug: "teachlink",
+    title: "TeachLink",
+    client: "Personal Project",
+    category: "Mobile Application",
+    year: "2024",
+    summary:
+      "A Flutter class-management app for educators and institutions — course and class management, student/teacher profiles, attendance tracking, assignments and grades, with announcements.",
+    metrics: [
+      ["Flutter", "cross-platform"],
+      ["Provider", "state management"],
+      ["3", "platforms (iOS/Android/Web)"],
+    ],
+    tags: ["Flutter", "Dart", "MongoDB"],
+    services: ["Mobile Application", "Web & App Development"],
+    challenge:
+      "Schools and tutors juggle course rosters, attendance, assignments and announcements across disconnected tools. The brief was a single cross-platform app to streamline classroom operations.",
+    outcome:
+      "Built a Flutter + MongoDB app with Firebase auth and Provider state management, covering course/class management, profiles, automated attendance, assignment and grade management, and a notifications/announcements system — running on Android, iOS and Web.",
+    website: "https://github.com/aadil0307/TeachLink",
+  },
+  {
+    slug: "steppup-pedometer-bmi",
+    title: "StepUP Pedometer & BMI",
+    client: "Personal Project",
+    category: "Mobile Application",
+    year: "2024",
+    summary:
+      "An Android pedometer and BMI tracker that uses the phone's built-in accelerometer to log steps, distance, calories and BMI against a daily goal — with past activity plotted on a graph.",
+    metrics: [
+      ["Accelerometer", "sensor-driven steps"],
+      ["BMI", "tracking on device"],
+      ["Graph", "activity history"],
+    ],
+    tags: ["Java", "Android", "Firebase"],
+    services: ["Mobile Application", "Web & App Development"],
+    challenge:
+      "Most step trackers need a wearable or paid app. The goal was an accessible, on-device pedometer that also surfaced meaningful health metrics (distance, calories, BMI) to push back against sedentary habits.",
+    outcome:
+      "Delivered an Android app in Java + XML backed by Firebase that counts steps and distance from the accelerometer, computes calories and BMI, sets daily goals, and charts historical activity so users can see their trend over time.",
+    website: "https://github.com/aadil0307/StepUP-Pedometer-BMI",
+  },
+  {
+    slug: "seasure",
+    title: "SeaSure Pro",
+    client: "Personal Project",
+    category: "Mobile Application",
+    year: "2024",
+    summary:
+      "A production-ready React Native app for Indian coastal fishermen — interactive maritime map with GPS/EEZ boundaries and 400+ landing centres, marine weather, AI fish recognition, trip planning, a digital logbook, and one-tap SOS.",
+    metrics: [
+      ["6", "Indian languages"],
+      ["400+", "landing centres mapped"],
+      ["AI", "fish recognition"],
+    ],
+    tags: ["React Native", "Expo", "Firebase"],
+    services: ["Mobile Application", "AI & Automation", "API & Integrations"],
+    challenge:
+      "Coastal fishermen risk crossing maritime boundaries and bad weather, and need real-time, low-connectivity-safe data. The app had to combine maps, weather, AI vision and emergency tools in one offline-tolerant experience.",
+    outcome:
+      "Built a React Native + Expo + TypeScript app on Firebase with Google Maps, OpenWeather and INCOIS data: GPS map with EEZ alerts and boundary warnings, marine weather with AI fishing recommendations, camera-based fish recognition, smart trip planner, cloud-synced logbook, and one-tap SOS to the Coast Guard — localized across 6 languages.",
+    website: "https://github.com/aadil0307/SeaSure",
+  },
+  {
+    slug: "ticketh",
+    title: "TickETH",
+    client: "Personal Project",
+    category: "Web & App Development",
+    year: "2024",
+    summary:
+      "A Web3 ticketing monorepo for NFT ticket minting, event discovery, controlled secondary resale, and event-day QR check-in — with SIWE wallet auth, an admin dashboard, and Solidity contracts on Polygon.",
+    metrics: [
+      ["Polygon", "NFT tickets"],
+      ["Web + Mobile", "monorepo"],
+      ["SIWE", "wallet auth"],
+    ],
+    tags: ["Solidity", "NestJS", "Next.js"],
+    services: ["Web & App Development", "API & Integrations", "Security & Audits"],
+    challenge:
+      "Ticketing is rife with fraud and scalping. The brief was a trustless system — NFT tickets on-chain, controlled resale, and verifiable event-day check-in — without a central authority owning inventory.",
+    outcome:
+      "Delivered a monorepo: NestJS + Supabase backend with BullMQ/Redis and ethers v6, Next.js 16 web app with thirdweb, an Expo/React Native QR scanner for volunteer check-in, and Solidity 0.8.24 contracts (Hardhat + OpenZeppelin) on Polygon Amoy — with admin moderation, audit logging, rate limiting and RBAC.",
+    website: "https://github.com/aadil0307/TickETH",
   },
 ];

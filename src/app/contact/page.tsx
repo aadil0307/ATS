@@ -1,404 +1,150 @@
-"use client";
-
-import { useState, type FormEvent } from "react";
-import {
-  contactSchema,
-  SERVICES,
-  BUDGETS,
-  SOURCES,
-  type ContactInput,
-} from "@/lib/validation";
-import Button from "@/components/ui/Button";
+import type { Metadata } from "next";
+import PageHeader from "@/components/layout/PageHeader";
+import Section from "@/components/ui/Section";
 import Reveal from "@/components/ui/Reveal";
-import Tag from "@/components/ui/Tag";
+import Button from "@/components/ui/Button";
+import { site, SOCIAL } from "@/lib/site";
 
-const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+const SITE = site.url;
 
-type Grecaptcha = {
-  ready: (key: string) => Promise<void>;
-  execute: (key: string, opts: { action: string }) => Promise<string>;
+export const metadata: Metadata = {
+  title: "Contact",
+  description:
+    "Let's build together. Reach Ace Tech Solutions on LinkedIn, Instagram, or email — we reply with a plan, not a pitch deck.",
+  alternates: { canonical: `${SITE}/contact` },
+  openGraph: {
+    title: "Contact — Ace Tech Solutions",
+    description:
+      "Let's build together. Reach Ace Tech Solutions on LinkedIn, Instagram, or email.",
+    url: `${SITE}/contact`,
+    siteName: "Ace Tech Solutions",
+    type: "website",
+  },
 };
 
-const CODES = [
-  { code: "+91", label: "IN +91" },
-  { code: "+1", label: "US +1" },
-  { code: "+44", label: "UK +44" },
-  { code: "+971", label: "AE +971" },
-  { code: "+65", label: "SG +65" },
+type Channel = {
+  label: string;
+  blurb: string;
+  cta: string;
+  href: string;
+  glyph: React.ReactNode;
+};
+
+const CHANNELS: Channel[] = [
+  {
+    label: "LinkedIn",
+    blurb:
+      "Connect with us professionally — for partnerships, projects, and longer-form collaborations.",
+    cta: "View LinkedIn",
+    href: SOCIAL.linkedin,
+    glyph: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
+        <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Instagram",
+    blurb:
+      "Follow our latest projects, AI experiments, and behind-the-scenes builds — and DM us anytime.",
+    cta: "Visit Instagram",
+    href: SOCIAL.instagram,
+    glyph: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden="true">
+        <path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zm0 3.68A6.16 6.16 0 1 0 12 18.16 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 12 8a4 4 0 0 1 0 8zm6.41-10.41a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Email",
+    blurb:
+      "Send us your project requirements — we typically reply within one business day with a plan.",
+    cta: "Send Email",
+    href: `mailto:${site.email}`,
+    glyph: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+        <rect x="3" y="5" width="18" height="14" rx="2.5" />
+        <path d="m3.5 7 8.5 6 8.5-6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
 ];
 
-type Errors = Partial<Record<keyof ContactInput, string>>;
-type Status = "idle" | "sending" | "success" | "error";
-
-const EMPTY: ContactInput = {
-  name: "",
-  company: "",
-  email: "",
-  phone: "",
-  services: [],
-  budget: "",
-  message: "",
-  source: "",
-  recaptchaToken: "",
-};
-
-const fieldCls =
-  "w-full rounded-md border border-white/15 bg-white/[0.03] px-4 py-3 text-ice placeholder:text-silver/50 transition-colors focus:border-blue focus:outline-none";
-
 export default function ContactPage() {
-  const [values, setValues] = useState<ContactInput>(EMPTY);
-  const [country, setCountry] = useState("+91");
-  const [phoneDigits, setPhoneDigits] = useState("");
-  const [errors, setErrors] = useState<Errors>({});
-  const [status, setStatus] = useState<Status>("idle");
-  const [serverMsg, setServerMsg] = useState("");
+  return (
+    <>
+      <PageHeader
+        eyebrow="Let's Talk"
+        title="Let's build together."
+        description="Have an idea, business, or project in mind? Let's turn it into something exceptional — websites, AI automation, and digital products that ship. Reach us on whichever channel you prefer."
+      />
 
-  function set<K extends keyof ContactInput>(k: K, v: ContactInput[K]) {
-    setValues((prev) => ({ ...prev, [k]: v }));
-  }
+      <Section
+        eyebrow="Get In Touch"
+        title="Three ways to reach us"
+        description="No forms, no friction. Pick the channel that suits you — we read every message and reply with a plan, not a pitch deck."
+      >
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {CHANNELS.map((c, i) => (
+            <Reveal key={c.label} delay={i * 0.06}>
+              <a
+                href={c.href}
+                target={c.href.startsWith("mailto:") ? undefined : "_blank"}
+                rel={c.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                className="group flex h-full flex-col rounded-lg border border-white/10 bg-white/[0.03] p-7 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_40px_rgba(26,26,255,0.12)]"
+              >
+                <div className="grid h-12 w-12 place-items-center rounded-xl bg-[linear-gradient(135deg,rgba(26,26,255,0.16),rgba(123,47,255,0.16))] text-ice transition-transform duration-300 group-hover:scale-105">
+                  {c.glyph}
+                </div>
+                <h3 className="mt-6 text-xl font-bold text-ice">{c.label}</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-silver">
+                  {c.blurb}
+                </p>
+                <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-bright transition-transform group-hover:translate-x-1">
+                  {c.cta} <span aria-hidden="true">→</span>
+                </span>
+              </a>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
 
-  function toggleService(s: string) {
-    setValues((prev) => ({
-      ...prev,
-      services: prev.services.includes(s)
-        ? prev.services.filter((x) => x !== s)
-        : [...prev.services, s],
-    }));
-  }
-
-  function onPhoneChange(digits: string) {
-    const cleaned = digits.replace(/\D/g, "");
-    setPhoneDigits(cleaned);
-    set("phone", (country + cleaned) as ContactInput["phone"]);
-  }
-
-  function onCountryChange(code: string) {
-    setCountry(code);
-    if (phoneDigits) {
-      set("phone", (code + phoneDigits) as ContactInput["phone"]);
-    }
-  }
-
-  async function getRecaptcha(): Promise<string | undefined> {
-    if (!SITE_KEY) return undefined;
-    const w = window as Window & { grecaptcha?: Grecaptcha };
-    if (!w.grecaptcha) {
-      await new Promise<void>((resolve, reject) => {
-        const el = document.createElement("script");
-        el.src = `https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`;
-        el.async = true;
-        el.onload = () => resolve();
-        el.onerror = () => reject(new Error("recaptcha load failed"));
-        document.head.appendChild(el);
-      }).catch(() => undefined);
-    }
-    const g = w.grecaptcha;
-    if (!g) return undefined;
-    await g.ready(SITE_KEY);
-    return g.execute(SITE_KEY, { action: "contact" });
-  }
-
-  async function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const parsed = contactSchema.safeParse(values);
-    if (!parsed.success) {
-      const fieldErrors: Errors = {};
-      for (const issue of parsed.error.issues) {
-        const key = issue.path[0] as keyof ContactInput;
-        if (!fieldErrors[key]) fieldErrors[key] = issue.message;
-      }
-      setErrors(fieldErrors);
-      setStatus("error");
-      setServerMsg("Please fix the highlighted fields.");
-      return;
-    }
-
-    setErrors({});
-    setStatus("sending");
-    setServerMsg("");
-
-    try {
-      const token = await getRecaptcha();
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...parsed.data, recaptchaToken: token ?? "" }),
-      });
-      if (res.ok) {
-        setStatus("success");
-        setValues(EMPTY);
-        setPhoneDigits("");
-        setCountry("+91");
-        return;
-      }
-      const data = (await res.json().catch(() => ({}))) as {
-        error?: string;
-        message?: string;
-      };
-      setStatus("error");
-      setServerMsg(
-        data.error ?? data.message ?? "Something went wrong. Please try again.",
-      );
-    } catch {
-      setStatus("error");
-      setServerMsg("Network error. Please check your connection and try again.");
-    }
-  }
-
-  if (status === "success") {
-    return (
-      <section className="relative flex min-h-[80svh] items-center overflow-hidden pt-28">
-        <div className="aurora absolute left-1/2 top-1/3 h-[360px] w-[360px] -translate-x-1/2 opacity-30" aria-hidden="true" />
-        <div className="relative mx-auto w-full max-w-xl px-6 text-center sm:px-10">
-          <div className="mx-auto mb-6 grid h-16 w-16 place-items-center rounded-full bg-success/15 text-3xl">
-            ✓
-          </div>
-          <h1 className="font-display text-4xl font-black text-ice sm:text-5xl">
-            Message sent.
-          </h1>
-          <p className="mx-auto mt-5 max-w-md text-silver">
-            Thanks — we&apos;ll be in touch within one business day. For anything
-            urgent, reach us on WhatsApp.
-          </p>
-          <div className="mt-9 flex flex-wrap justify-center gap-4">
-            <Button href="/" className="px-7 py-3.5">
-              Back home
-            </Button>
+      <Section className="!pt-0">
+        <div className="relative overflow-hidden rounded-lg border border-white/10 bg-ink-soft/70 p-10 text-center sm:p-16">
+          <div className="aurora absolute inset-x-0 top-1/2 mx-auto h-[320px] max-w-[720px] -translate-y-1/2 opacity-40" aria-hidden="true" />
+          <div className="relative">
+            <h2 className="font-display text-4xl font-black text-ice sm:text-5xl">
+              Ready to build something <span className="text-gradient">amazing?</span>
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-lg text-silver">
+              Websites, AI-powered solutions, automation, and digital products —
+              designed, built, and shipped by one accountable team.
+            </p>
+            <div className="mt-9 flex flex-wrap justify-center gap-4">
+              <Button href={SOCIAL.instagram} className="px-7 py-3.5">
+                Start Your Project <span aria-hidden="true">→</span>
+              </Button>
+              <Button href={site.phone.whatsapp} variant="ghost" className="px-7 py-3.5">
+                <span aria-hidden="true">💬</span> WhatsApp us
+              </Button>
+            </div>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-silver">
+              <a
+                href={`mailto:${site.email}`}
+                className="transition-colors hover:text-ice"
+              >
+                {site.email}
+              </a>
+              <a
+                href={site.phone.tel}
+                className="transition-colors hover:text-ice"
+              >
+                {site.phone.display}
+              </a>
+            </div>
           </div>
         </div>
-      </section>
-    );
-  }
-
-  return (
-    <section className="relative overflow-hidden pb-24 pt-32">
-      <div className="absolute inset-0 grid-backdrop opacity-40" aria-hidden="true" />
-      <div className="aurora absolute right-0 top-10 h-[420px] w-[420px] opacity-25" aria-hidden="true" />
-
-      <div className="relative mx-auto max-w-[1100px] px-6 sm:px-10">
-        <Reveal className="mb-12 max-w-2xl">
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.14em] text-blue-bright">
-            Let&apos;s Talk
-          </p>
-          <h1 className="font-display text-5xl font-black leading-tight text-ice sm:text-6xl">
-            Start a project
-          </h1>
-          <p className="mt-5 text-lg leading-relaxed text-silver">
-            Tell us what you&apos;re building. We&apos;ll reply with a plan, not a
-            pitch deck.
-          </p>
-        </Reveal>
-
-        <form onSubmit={onSubmit} noValidate className="grid gap-10 lg:grid-cols-[1.4fr_1fr]">
-          <div className="rounded-lg border border-white/10 bg-white/[0.03] p-7 sm:p-9">
-            <div className="grid gap-6">
-              <Field label="Full Name" error={errors.name} required>
-                <input
-                  className={fieldCls}
-                  value={values.name}
-                  onChange={(e) => set("name", e.target.value)}
-                  placeholder="Jane Doe"
-                  aria-invalid={Boolean(errors.name)}
-                />
-              </Field>
-
-              <Field label="Company / Organization" error={errors.company}>
-                <input
-                  className={fieldCls}
-                  value={values.company}
-                  onChange={(e) => set("company", e.target.value)}
-                  placeholder="Acme Inc. (optional)"
-                />
-              </Field>
-
-              <div className="grid gap-6 sm:grid-cols-2">
-                <Field label="Email" error={errors.email} required>
-                  <input
-                    type="email"
-                    className={fieldCls}
-                    value={values.email}
-                    onChange={(e) => set("email", e.target.value)}
-                    placeholder="jane@acme.com"
-                    aria-invalid={Boolean(errors.email)}
-                  />
-                </Field>
-                <Field label="Phone" error={errors.phone}>
-                  <div className="flex gap-2">
-                    <select
-                      className={`${fieldCls} w-28 shrink-0`}
-                      value={country}
-                      onChange={(e) => onCountryChange(e.target.value)}
-                      aria-label="Country code"
-                    >
-                      {CODES.map((c) => (
-                        <option key={c.code} value={c.code} className="bg-ink-soft">
-                          {c.label}
-                        </option>
-                      ))}
-                    </select>
-                    <input
-                      type="tel"
-                      inputMode="numeric"
-                      className={fieldCls}
-                      value={phoneDigits}
-                      onChange={(e) => onPhoneChange(e.target.value)}
-                      placeholder="96191 00568"
-                    />
-                  </div>
-                </Field>
-              </div>
-
-              <Field label="Service Interested In" error={errors.services} required>
-                <div className="flex flex-wrap gap-2.5">
-                  {SERVICES.map((s) => {
-                    const active = values.services.includes(s);
-                    return (
-                      <button
-                        type="button"
-                        key={s}
-                        onClick={() => toggleService(s)}
-                        aria-pressed={active}
-                        className={`rounded-pill border px-4 py-2 text-sm font-medium transition-colors ${
-                          active
-                            ? "border-blue bg-blue/15 text-ice"
-                            : "border-white/15 text-silver hover:border-white/30 hover:text-ice"
-                        }`}
-                      >
-                        {s}
-                      </button>
-                    );
-                  })}
-                </div>
-              </Field>
-
-              <div className="grid gap-6 sm:grid-cols-2">
-                <Field label="Estimated Budget" error={errors.budget}>
-                  <select
-                    className={fieldCls}
-                    value={values.budget}
-                    onChange={(e) => set("budget", e.target.value)}
-                  >
-                    <option value="" className="bg-ink-soft">
-                      Select a range
-                    </option>
-                    {BUDGETS.map((b) => (
-                      <option key={b} value={b} className="bg-ink-soft">
-                        {b}
-                      </option>
-                    ))}
-                  </select>
-                </Field>
-                <Field label="How did you hear about us?" error={errors.source}>
-                  <select
-                    className={fieldCls}
-                    value={values.source}
-                    onChange={(e) => set("source", e.target.value)}
-                  >
-                    <option value="" className="bg-ink-soft">
-                      Select an option
-                    </option>
-                    {SOURCES.map((s) => (
-                      <option key={s} value={s} className="bg-ink-soft">
-                        {s}
-                      </option>
-                    ))}
-                  </select>
-                </Field>
-              </div>
-
-              <Field
-                label="Project Description"
-                error={errors.message}
-                required
-                hint={`${values.message.trim().length}/2000`}
-              >
-                <textarea
-                  className={`${fieldCls} min-h-32 resize-y`}
-                  value={values.message}
-                  onChange={(e) => set("message", e.target.value)}
-                  placeholder="What are you building, and what does success look like?"
-                  aria-invalid={Boolean(errors.message)}
-                />
-              </Field>
-            </div>
-          </div>
-
-          <aside className="lg:sticky lg:top-28 lg:self-start">
-            <div className="rounded-lg border border-white/10 bg-ink-soft/60 p-7">
-              <h2 className="font-display text-xl font-bold text-ice">
-                Ready when you are
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-silver">
-                We typically reply within one business day. Prefer to talk it
-                through? Reach us directly.
-              </p>
-              <div className="mt-6 flex flex-col gap-3">
-                <Button type="submit" className="w-full justify-center px-7 py-3.5">
-                  {status === "sending" ? "Sending…" : "Send Message"}
-                </Button>
-                <Button
-                  href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "919690000000"}`}
-                  variant="ghost"
-                  className="w-full justify-center px-7 py-3.5"
-                >
-                  <span aria-hidden="true">💬</span> WhatsApp us
-                </Button>
-              </div>
-              {status === "error" && serverMsg && (
-                <p
-                  role="alert"
-                  className="mt-5 rounded-md border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger"
-                >
-                  {serverMsg}
-                </p>
-              )}
-              <div className="mt-6 border-t border-white/10 pt-5">
-                <p className="text-xs uppercase tracking-wider text-silver">
-                  Why teams choose us
-                </p>
-                <ul className="mt-3 flex flex-col gap-2 text-sm text-silver">
-                  <li className="flex items-center gap-2">
-                    <Tag variant="success">Fast</Tag> Replies with a plan, not a deck
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Tag variant="cyan">Agile</Tag> Founder-led, direct communication
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </aside>
-        </form>
-      </div>
-    </section>
-  );
-}
-
-function Field({
-  label,
-  error,
-  required,
-  hint,
-  children,
-}: {
-  label: string;
-  error?: string;
-  required?: boolean;
-  hint?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <label className="block">
-      <span className="mb-2 flex items-center justify-between text-sm font-medium text-ice">
-        {label}
-        {required && <span className="text-blue-bright">*</span>}
-        {hint && <span className="font-mono text-xs text-silver">{hint}</span>}
-      </span>
-      {children}
-      {error && (
-        <span role="alert" className="mt-1.5 block text-xs text-danger">
-          {error}
-        </span>
-      )}
-    </label>
+      </Section>
+    </>
   );
 }
