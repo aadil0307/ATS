@@ -28,7 +28,9 @@ for (let i = 0; i < V.length; i++)
     if (dd <= e * 1.06) lines.push(`<line x1="${P[i].x}" y1="${P[i].y}" x2="${P[j].x}" y2="${P[j].y}"/>`);
   }
 
-const A = "M50 19 L27 85 L34 53 L66 53 L73 85 L50 19";
+// Refined "A" — compact and centred inside the icosahedron, lighter stroke
+// and dialled-back opacity so the wireframe core reads first.
+const A = "M50 30 L33 72 L41 53 L59 53 L67 72 L50 30";
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" role="img" aria-label="Ace Core">
   <defs>
@@ -40,7 +42,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill=
   <g stroke="url(#g)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.92">
     ${lines.join("\n    ")}
   </g>
-  <path d="${A}" stroke="#00D4FF" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="${A}" stroke="#00D4FF" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
 </svg>
 `;
 

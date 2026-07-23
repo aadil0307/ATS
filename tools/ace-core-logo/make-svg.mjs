@@ -38,7 +38,9 @@ const EDGES = (() => {
     }
   return out;
 })();
-const A_PATH = "M50 19 L27 85 L34 53 L66 53 L73 85 L50 19";
+// Refined "A" — compact and centred inside the icosahedron, lighter stroke
+// and dialled-back opacity so the wireframe core reads first.
+const A_PATH = "M50 30 L33 72 L41 53 L59 53 L67 72 L50 30";
 
 /* ---------------------------- fonts ------------------------------- */
 const b64 = (p) => readFileSync(p).toString("base64");
@@ -78,7 +80,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" wid
     <g stroke="url(#aceGrad)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.92">
 ${lines}
     </g>
-    <path d="${A_PATH}" stroke="#00D4FF" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="${A_PATH}" stroke="#00D4FF" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.8" />
   </g>
 
   <!-- wordmark -->
