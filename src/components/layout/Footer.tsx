@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import Logo from "@/components/layout/Logo";
+import { site, socialLinks } from "@/lib/site";
 
-const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "919690000000";
 const YEAR = 2026;
 
 const COLUMNS = [
@@ -42,7 +42,7 @@ export default function Footer() {
             scale engineering, and ship fast.
           </p>
           <Button
-            href={`https://wa.me/${WHATSAPP}`}
+            href={site.phone.whatsapp}
             variant="ghost"
             className="mt-6 px-5 py-2.5"
           >
@@ -72,9 +72,39 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-[1100px] flex-col items-center justify-between gap-4 px-6 py-6 text-xs text-silver sm:flex-row sm:px-10">
+        <div className="mx-auto flex max-w-[1100px] flex-col gap-4 px-6 py-6 text-xs text-silver sm:flex-row sm:items-center sm:justify-between sm:px-10">
           <p>© {YEAR} Ace Tech Solutions. All rights reserved.</p>
-          <p className="font-mono">Build It. Ship It. Dominate.</p>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <a
+              href={`mailto:${site.email}`}
+              className="transition-colors hover:text-ice"
+            >
+              {site.email}
+            </a>
+            <a
+              href={site.phone.tel}
+              className="transition-colors hover:text-ice"
+            >
+              {site.phone.display}
+            </a>
+            <span className="hidden text-white/15 sm:inline" aria-hidden="true">·</span>
+            {socialLinks.length > 0 && (
+              <span className="flex gap-4">
+                {socialLinks.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-colors hover:text-ice"
+                  >
+                    {s.label}
+                  </a>
+                ))}
+              </span>
+            )}
+            <p className="font-mono sm:ml-auto">Build It. Ship It. Dominate.</p>
+          </div>
         </div>
       </div>
     </footer>

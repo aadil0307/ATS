@@ -54,7 +54,7 @@
       <line x1="89.94" y1="50.87" x2="69.78" y2="35.82" />
       <line x1="30.22" y1="64.18" x2="10.06" y2="49.13" />
     </g>
-    <path d="M50 19 L27 85 L34 53 L66 53 L73 85 L50 19" stroke="#00D4FF" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M50 30 L33 72 L41 53 L59 53 L67 72 L50 30" stroke="#00D4FF" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.8" />
   </g>
 
   <!-- wordmark -->

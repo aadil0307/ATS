@@ -1,5 +1,6 @@
 import Hero from "@/components/home/Hero";
 import ServicesPreview from "@/components/home/ServicesPreview";
+import Testimonials from "@/components/home/Testimonials";
 import Stats from "@/components/home/Stats";
 import SocialProof from "@/components/home/SocialProof";
 import PortfolioPreview from "@/components/home/PortfolioPreview";
@@ -13,6 +14,7 @@ export default function Home() {
       <StructuredData />
       <Hero />
       <ServicesPreview />
+      <Testimonials />
       <Stats />
       <SocialProof />
       <PortfolioPreview />

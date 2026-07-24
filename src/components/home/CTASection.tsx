@@ -1,6 +1,5 @@
 import Button from "@/components/ui/Button";
-
-const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "919690000000";
+import { site } from "@/lib/site";
 
 export default function CTASection() {
   return (
@@ -24,7 +23,7 @@ export default function CTASection() {
               Start a Project
             </Button>
             <Button
-              href={`https://wa.me/${WHATSAPP}`}
+              href={site.phone.whatsapp}
               variant="ghost"
               className="px-7 py-3.5"
             >

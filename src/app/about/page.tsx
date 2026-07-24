@@ -49,12 +49,12 @@ const VALUES = [
 ];
 
 const TEAM = [
-  { name: "Aarav Mehta", role: "Founder & CEO" },
-  { name: "Sana Kapoor", role: "Co-founder & CTO" },
-  { name: "Dev Rao", role: "Head of Product Design" },
-  { name: "Mira Iyer", role: "Lead AI Engineer" },
-  { name: "Kabir Singh", role: "Principal Cloud Architect" },
-  { name: "Lina Thomas", role: "Delivery Lead" },
+  { name: "Mohammad Aadil Shaikh", role: "Founder & CEO" },
+  { name: "Muhammad Suhaan Khan", role: "Co Founder" },
+  { name: "Abdul Qadir Khan", role: "Co Founder" },
+  { name: "Akbar Ali Khan", role: "Lead Strategist" },
+  { name: "Ahmed Ali Shaikh", role: "Marketing Head" },
+  { name: "Sufiyan Jigrani", role: "Data Analyst" },
 ];
 
 const initials = (name: string) =>

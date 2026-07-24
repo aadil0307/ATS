@@ -3,8 +3,9 @@ import PageHeader from "@/components/layout/PageHeader";
 import Section from "@/components/ui/Section";
 import Reveal from "@/components/ui/Reveal";
 import CTASection from "@/components/home/CTASection";
+import { site } from "@/lib/site";
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://acetech.in";
+const SITE = site.url;
 
 export const metadata: Metadata = {
   title: "Careers",
@@ -62,7 +63,7 @@ const CULTURE = [
 ];
 
 const applyHref = (role: string) =>
-  `mailto:careers@acetech.in?subject=${encodeURIComponent(`Application: ${role}`)}`;
+  `mailto:${site.email}?subject=${encodeURIComponent(`Application: ${role}`)}`;
 
 export default function CareersPage() {
   return (

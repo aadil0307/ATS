@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Inter:wght@500;600&display=swap');
+
+  .ace-logo-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    padding: 4px;
+  }
+
+  .ace-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    overflow: visible;
+  }
+
+  .ace-icon .glow {
+    animation: aceGlowPulse 5s cubic-bezier(.4,0,.2,1) infinite;
+    transform-origin: 60px 62px;
+  }
+
+  .ace-icon .pulseline {
+    stroke-dasharray: 16 332;
+    animation: aceCircuit 4s cubic-bezier(.4,0,.2,1) infinite;
+  }
+
+  .ace-icon .node {
+    animation: aceTwinkle 3s cubic-bezier(.4,0,.2,1) infinite;
+  }
+  .ace-icon .node:nth-child(1) { animation-delay: 0s; }
+  .ace-icon .node:nth-child(2) { animation-delay: .5s; }
+  .ace-icon .node:nth-child(3) { animation-delay: 1s; }
+  .ace-icon .node:nth-child(4) { animation-delay: 1.5s; }
+  .ace-icon .node:nth-child(5) { animation-delay: 2s; }
+  .ace-icon .node:nth-child(6) { animation-delay: 2.5s; }
+
+  .ace-icon .orbit {
+    animation: aceOrbit 6s linear infinite;
+    transform-origin: 60px 14px;
+  }
+
+
+  .ace-icon .ring {
+    animation: aceRotate 36s linear infinite, aceHue 9s cubic-bezier(.4,0,.2,1) infinite;
+    transform-origin: 60px 62px;
+    opacity: 0.5;
+  }
+
+  .ace-icon .acetext {
+    fill: url(#textShine);
+  }
+  .ace-icon .subtext {
+    fill: url(#gHex);
+  }
+
+  @keyframes aceHue {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+
+  @keyframes aceRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes aceGlowPulse {
+    0%, 100% { opacity: .55; }
+    50% { opacity: .9; }
+  }
+  @keyframes aceCircuit {
+    from { stroke-dashoffset: 348; }
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes aceTwinkle {
+    0%, 100% { opacity: .3; }
+    50% { opacity: 1; }
+  }
+  @keyframes aceOrbit {
+    from { transform: rotate(0deg) translateX(7px) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(7px) rotate(-360deg); }
+  }
+
+  .ace-word {
+    font-family: 'Sora', 'Inter', sans-serif;
+    line-height: 1.05;
+  }
+  .ace-word .line1 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .ace-word .line1 .white { color: #f5f7ff; }
+  .ace-word .line1 .grad {
+    background: linear-gradient(90deg,#22e8f5,#8b5cf6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .ace-word .line2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: #8a8fb0;
+    margin-top: 1px;
+  }
+</style>
+</head>
+<body style="margin:0; background:#0a0a14; padding:40px; display:flex; align-items:center; justify-content:center;">
+
+<div class="ace-logo-wrap">
+  <svg class="ace-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#26d9f0"/>
+        <stop offset="55%" stop-color="#6c5ce7"/>
+        <stop offset="100%" stop-color="#8b3ff5"/>
+      </linearGradient>
+      <linearGradient id="gHex" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#26d9f0"/>
+        <stop offset="100%" stop-color="#8b3ff5"/>
+      </linearGradient>
+      <linearGradient id="textShine" x1="-40%" y1="0%" x2="0%" y2="0%">
+        <stop offset="0%" stop-color="#26d9f0"/>
+        <stop offset="45%" stop-color="#ffffff"/>
+        <stop offset="55%" stop-color="#ffffff"/>
+        <stop offset="100%" stop-color="#8b3ff5"/>
+        <animate attributeName="x1" values="-40%;140%" dur="3.5s" repeatCount="indefinite"/>
+        <animate attributeName="x2" values="0%;180%" dur="3.5s" repeatCount="indefinite"/>
+      </linearGradient>
+      <radialGradient id="glowFill" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#26d9f0" stop-opacity="0.45"/>
+        <stop offset="100%" stop-color="#26d9f0" stop-opacity="0"/>
+      </radialGradient>
+      <path id="spadePath" d="M60,14 C 32,40 16,60 25,77 C 32,90 50,89 58,77 C 60,84 56,90 48,96 C 43,100 40,104 40,109 L 80,109 C 80,104 77,100 72,96 C 64,90 60,84 62,77 C 70,89 88,90 95,77 C 104,60 88,40 60,14 Z"/>
+    </defs>
+
+    <circle class="glow" cx="60" cy="62" r="52" fill="url(#glowFill)"/>
+
+    <g class="ring" opacity="0.55">
+      <g stroke="url(#gHex)" stroke-width="1" opacity="0.85">
+        <line x1="60" y1="61" x2="60" y2="22"/>
+        <line x1="60" y1="61" x2="94" y2="41"/>
+        <line x1="60" y1="61" x2="94" y2="81"/>
+        <line x1="60" y1="61" x2="60" y2="100"/>
+        <line x1="60" y1="61" x2="26" y2="81"/>
+        <line x1="60" y1="61" x2="26" y2="41"/>
+      </g>
+      <g stroke="url(#gHex)" stroke-width="0.8" fill="none" opacity="0.5">
+        <polygon points="60,22 94,41 94,81 60,100 26,81 26,41"/>
+      </g>
+      <g fill="url(#gHex)">
+        <circle class="node" cx="60" cy="22" r="2.8"/>
+        <circle class="node" cx="94" cy="41" r="2.8"/>
+        <circle class="node" cx="94" cy="81" r="2.8"/>
+        <circle class="node" cx="60" cy="100" r="2.8"/>
+        <circle class="node" cx="26" cy="81" r="2.8"/>
+        <circle class="node" cx="26" cy="41" r="2.8"/>
+      </g>
+    </g>
+
+    <use href="#spadePath" fill="url(#g)" opacity="0.16"/>
+    <use href="#spadePath" fill="none" stroke="url(#g)" stroke-width="2.2" stroke-linejoin="round"/>
+    <use class="pulseline" href="#spadePath" fill="none" stroke="#eaffff" stroke-width="2.4" stroke-linejoin="round" opacity="0.9"/>
+
+    <circle cx="60" cy="14" r="6.5" fill="none" stroke="url(#g)" stroke-width="1" opacity="0.5"/>
+    <circle class="orbit" cx="60" cy="14" r="2.2" fill="#eaffff"/>
+
+    <text class="acetext" x="60" y="50" text-anchor="middle" dominant-baseline="middle" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="17" letter-spacing="1.8" style="filter: drop-shadow(0 1px 1.2px rgba(5,8,16,0.7));">ACE</text>
+    <text class="subtext" x="60" y="64" text-anchor="middle" dominant-baseline="middle" font-family="Arial, sans-serif" font-weight="700" font-size="5.6" letter-spacing="1.4" style="filter: drop-shadow(0 1px 1.2px rgba(5,8,16,0.7));">TECH SOLUTIONS</text>
+  </svg>
+
+  <div class="ace-word">
+    <div class="line1"><span class="white">ACE</span> <span class="grad">TECH</span></div>
+    <div class="line2">SOLUTIONS</div>
+  </div>
+</div>
+
+</body>
+</html>
