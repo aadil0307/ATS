@@ -13,7 +13,7 @@ import * as THREE from "three";
 // Detect if mobile for particle count optimization
 const IS_MOBILE = typeof window !== 'undefined' && window.innerWidth < 768;
 const PARTICLE_COUNT = IS_MOBILE ? 200 : 2800; // Drastically reduced for mobile
-const SPEED_MULTIPLIER = IS_MOBILE ? 1.5 : 5; // 1.5x on mobile, 5x on desktop
+const SPEED_MULTIPLIER = IS_MOBILE ? 2 : 5; // 2x on mobile, 5x on desktop
 
 const PARTICLE_POSITIONS = (() => {
   const arr = new Float32Array(PARTICLE_COUNT * 3);
