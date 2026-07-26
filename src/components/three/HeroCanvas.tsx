@@ -10,7 +10,10 @@ import * as THREE from "three";
 /* Module-scope assets (generated once, browser-only — ssr:false)      */
 /* ------------------------------------------------------------------ */
 
-const PARTICLE_COUNT = 2800;
+// Detect if mobile for particle count optimization
+const IS_MOBILE = typeof window !== 'undefined' && window.innerWidth < 768;
+const PARTICLE_COUNT = IS_MOBILE ? 800 : 2800; // Reduced for mobile
+const SPEED_MULTIPLIER = 5; // 5x faster on all devices for dramatic effect
 
 const PARTICLE_POSITIONS = (() => {
   const arr = new Float32Array(PARTICLE_COUNT * 3);
@@ -60,7 +63,7 @@ const GLOW = (() => {
 })();
 
 // Neural-net globe: nodes on the sphere surface + links between near ones.
-const NODE_COUNT = 96;
+const NODE_COUNT = IS_MOBILE ? 48 : 96; // Reduced for mobile
 const NODES = (() => {
   const arr = new Float32Array(NODE_COUNT * 3);
   const dirs: Array<[number, number, number]> = [];
@@ -101,8 +104,8 @@ function Particles() {
   const ref = useRef<THREE.Points>(null);
   useFrame((_, d) => {
     if (!ref.current) return;
-    ref.current.rotation.y += d * 0.005;
-    ref.current.rotation.x += d * 0.002;
+    ref.current.rotation.y += d * 0.01 * SPEED_MULTIPLIER;
+    ref.current.rotation.x += d * 0.004 * SPEED_MULTIPLIER;
   });
   return (
     <points ref={ref}>
@@ -130,7 +133,7 @@ function NeuralGlobe() {
   const ref = useRef<THREE.Group>(null);
   useFrame((state, d) => {
     if (!ref.current) return;
-    ref.current.rotation.y += d * 0.02;
+    ref.current.rotation.y += d * 0.04 * SPEED_MULTIPLIER;
   });
   return (
     <group ref={ref}>
@@ -181,7 +184,7 @@ function NeuralGlobe() {
 function Core() {
   const ref = useRef<THREE.Mesh>(null);
   useFrame((_, d) => {
-    if (ref.current) ref.current.rotation.y -= d * 0.05;
+    if (ref.current) ref.current.rotation.y -= d * 0.1 * SPEED_MULTIPLIER;
   });
   return (
     <group>
@@ -220,26 +223,26 @@ type ShardCfg = {
 };
 
 const SHARDS: ShardCfg[] = [
-  { kind: "tetrahedron", r: 4.6, s: 0.55, speed: 0.1, tilt: 0.4, color: "#00d4ff", phase: 0 },
-  { kind: "octahedron", r: 5.4, s: 0.62, speed: -0.08, tilt: -0.3, color: "#7b2fff", phase: 1.3 },
-  { kind: "icosahedron", r: 6.2, s: 0.45, speed: 0.06, tilt: 0.6, color: "#1a1aff", phase: 2.6 },
-  { kind: "tetrahedron", r: 5.0, s: 0.42, speed: 0.12, tilt: -0.5, color: "#00d4ff", phase: 3.9 },
-  { kind: "octahedron", r: 6.9, s: 0.5, speed: -0.05, tilt: 0.2, color: "#7b2fff", phase: 5.2 },
+  { kind: "tetrahedron", r: 4.6, s: 0.55, speed: 0.2, tilt: 0.4, color: "#00d4ff", phase: 0 }, // Doubled from 0.1
+  { kind: "octahedron", r: 5.4, s: 0.62, speed: -0.16, tilt: -0.3, color: "#7b2fff", phase: 1.3 }, // Doubled from -0.08
+  { kind: "icosahedron", r: 6.2, s: 0.45, speed: 0.12, tilt: 0.6, color: "#1a1aff", phase: 2.6 }, // Doubled from 0.06
+  { kind: "tetrahedron", r: 5.0, s: 0.42, speed: 0.24, tilt: -0.5, color: "#00d4ff", phase: 3.9 }, // Doubled from 0.12
+  { kind: "octahedron", r: 6.9, s: 0.5, speed: -0.1, tilt: 0.2, color: "#7b2fff", phase: 5.2 }, // Doubled from -0.05
 ];
 
 function Shard({ kind, r, s, speed, tilt, color, phase }: ShardCfg) {
   const ref = useRef<THREE.Group>(null);
   const t = useRef(phase);
   useFrame((_, d) => {
-    t.current += d * speed;
+    t.current += d * speed * SPEED_MULTIPLIER;
     if (!ref.current) return;
     ref.current.position.set(
       Math.cos(t.current) * r,
       Math.sin(t.current * 1.2) * r * 0.5,
       Math.sin(t.current) * r,
     );
-    ref.current.rotation.x += d * 0.1;
-    ref.current.rotation.y += d * 0.08;
+    ref.current.rotation.x += d * 0.1 * SPEED_MULTIPLIER;
+    ref.current.rotation.y += d * 0.08 * SPEED_MULTIPLIER;
   });
   return (
     <group ref={ref} rotation={[tilt, tilt, 0]}>
@@ -268,12 +271,12 @@ function Rings() {
   const b = useRef<THREE.Mesh>(null);
   useFrame((_, d) => {
     if (a.current) {
-      a.current.rotation.x += d * 0.03;
-      a.current.rotation.z += d * 0.02;
+      a.current.rotation.x += d * 0.06 * SPEED_MULTIPLIER;
+      a.current.rotation.z += d * 0.04 * SPEED_MULTIPLIER;
     }
     if (b.current) {
-      b.current.rotation.y += d * 0.025;
-      b.current.rotation.x -= d * 0.015;
+      b.current.rotation.y += d * 0.05 * SPEED_MULTIPLIER;
+      b.current.rotation.x -= d * 0.03 * SPEED_MULTIPLIER;
     }
   });
   return (
@@ -306,7 +309,7 @@ function Comet() {
   const ref = useRef<THREE.Mesh>(null);
   const t = useRef(0);
   useFrame((_, d) => {
-    t.current += d * 0.2;
+    t.current += d * 0.2 * SPEED_MULTIPLIER;
     if (!ref.current) return;
     const r = 4.4;
     ref.current.position.set(
@@ -329,15 +332,15 @@ function Rig() {
   const group = useRef<THREE.Group>(null);
   useFrame((state) => {
     if (!group.current) return;
-    const tx = state.pointer.x * 0.05;
-    const ty = state.pointer.y * 0.03;
-    group.current.rotation.y += (tx - group.current.rotation.y) * 0.01;
-    group.current.rotation.x += (-ty - group.current.rotation.x) * 0.01;
-    group.current.rotation.z += 0.0001;
+    const tx = state.pointer.x * 0.25; // Increased from 0.05 (5x more sensitive)
+    const ty = state.pointer.y * 0.15; // Increased from 0.03 (5x more sensitive)
+    group.current.rotation.y += (tx - group.current.rotation.y) * 0.1; // Increased from 0.01 (10x faster response)
+    group.current.rotation.x += (-ty - group.current.rotation.x) * 0.1; // Increased from 0.01 (10x faster response)
+    group.current.rotation.z += 0.0001 * SPEED_MULTIPLIER;
   });
   return (
     <group ref={group}>
-      <Stars radius={70} depth={45} count={1800} factor={3} saturation={0} fade speed={0.6} />
+      <Stars radius={70} depth={45} count={IS_MOBILE ? 900 : 1800} factor={3} saturation={0} fade speed={0.6 * SPEED_MULTIPLIER} />
       <NeuralGlobe />
       <Core />
       <Rings />
@@ -345,7 +348,7 @@ function Rig() {
         <Shard key={i} {...s} />
       ))}
       <Comet />
-      <Sparkles count={70} scale={[11, 11, 7]} size={3} speed={0.4} color="#7b2fff" opacity={0.6} />
+      <Sparkles count={IS_MOBILE ? 35 : 70} scale={[11, 11, 7]} size={3} speed={0.4 * SPEED_MULTIPLIER} color="#7b2fff" opacity={0.6} />
       <Particles />
     </group>
   );
@@ -356,8 +359,13 @@ export default function HeroCanvas() {
     <Canvas
       className="!absolute inset-0"
       camera={{ position: [0, 0, 12], fov: 50 }}
-      dpr={[1, 2]}
-      gl={{ antialias: true, alpha: true }}
+      dpr={typeof window !== 'undefined' && window.innerWidth < 768 ? [1, 1.5] : [1, 2]}
+      gl={{
+        antialias: true,
+        alpha: true,
+        powerPreference: "high-performance",
+      }}
+      performance={{ min: 0.5 }}
     >
       <Rig />
       <EffectComposer>
