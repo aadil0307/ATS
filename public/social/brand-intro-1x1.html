@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=1080, initial-scale=0.35"/>
+<title>Ace Tech Solutions — Brand Intro (1:1)</title>
+<style>
+  :root{
+    --void:#0a0e1a;
+    --c1:#26d9f0;
+    --c2:#6c5ce7;
+    --c3:#8b3ff5;
+    --ice:#eaffff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{background:#000;}
+  body{display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:Arial,system-ui,sans-serif;color:var(--ice);}
+  .stage{
+    position:relative;width:1080px;height:1080px;overflow:hidden;background:var(--void);
+  }
+  /* ---------- shared defs via CSS-only gradients ---------- */
+  .grad-fill{fill:url(#brandGrad);}
+  /* base glow */
+  .glow{position:absolute;inset:0;background:radial-gradient(circle at 50% 47%, rgba(38,217,240,.22) 0%, rgba(38,217,240,0) 52%);animation:breathe 7s cubic-bezier(.4,0,.2,1) infinite;}
+  @keyframes breathe{0%,100%{opacity:.6;}50%{opacity:1;}}
+
+  /* floating particles */
+  .p{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--c1);box-shadow:0 0 12px var(--c1);opacity:0;animation:floatP 7s cubic-bezier(.4,0,.2,1) infinite;}
+  .p:nth-child(1){top:16%;left:22%;animation-delay:0s;background:var(--c1);}
+  .p:nth-child(2){top:26%;left:78%;animation-delay:.35s;background:var(--c2);box-shadow:0 0 12px var(--c2);}
+  .p:nth-child(3){top:72%;left:18%;animation-delay:.7s;background:var(--c3);box-shadow:0 0 12px var(--c3);}
+  .p:nth-child(4){top:80%;left:80%;animation-delay:1.05s;background:var(--c1);}
+  .p:nth-child(5){top:48%;left:12%;animation-delay:1.4s;background:var(--c2);box-shadow:0 0 12px var(--c2);}
+  .p:nth-child(6){top:38%;left:88%;animation-delay:1.75s;background:var(--c3);box-shadow:0 0 12px var(--c3);}
+  @keyframes floatP{
+    0%{opacity:0;transform:translate(0,0) scale(.4);}
+    20%{opacity:1;}
+    80%{opacity:1;}
+    100%{opacity:0;transform:translate(0,-40px) scale(1.1);}
+  }
+
+  /* the Ace Core mark (vector) */
+  .mark{position:absolute;top:150px;left:0;right:0;display:flex;align-items:center;justify-content:center;}
+  .mark svg{width:440px;height:440px;overflow:visible;}
+  .spade-trace{stroke-dasharray:348;stroke-dashoffset:348;animation:draw 7s cubic-bezier(.4,0,.2,1) infinite;}
+  @keyframes draw{
+    0%{stroke-dashoffset:348;opacity:0;}
+    14%{opacity:1;}
+    46%{stroke-dashoffset:0;opacity:1;}
+    92%{stroke-dashoffset:0;opacity:1;}
+    100%{stroke-dashoffset:0;opacity:0;}
+  }
+  .spade-fill{opacity:0;animation:fillIn 7s cubic-bezier(.4,0,.2,1) infinite;}
+  @keyframes fillIn{
+    0%,30%{opacity:0;}
+    50%{opacity:.16;}
+    92%{opacity:.16;}
+    100%{opacity:0;}
+  }
+  /* orbiting shard */
+  .orbit{position:absolute;top:34%;left:50%;width:520px;height:520px;transform-origin:center;animation:orbit 7s linear infinite;}
+  @keyframes orbit{0%{transform:translate(-50%,0) rotate(0);}100%{transform:translate(-50%,0) rotate(360deg);}}
+  .orbit .dot{position:absolute;top:-6px;left:50%;width:12px;height:12px;border-radius:50%;background:var(--ice);box-shadow:0 0 18px var(--c1);transform:translateX(-50%);opacity:0;animation:dotShow 7s cubic-bezier(.4,0,.2,1) infinite;}
+  @keyframes dotShow{0%,18%{opacity:0;}30%,80%{opacity:1;}90%,100%{opacity:0;}}
+
+  /* headline */
+  .words{position:absolute;left:0;right:0;top:640px;display:flex;flex-direction:column;align-items:center;text-align:center;pointer-events:none;}
+  .ace{font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:96px;letter-spacing:6px;line-height:1;
+    background:linear-gradient(100deg,var(--c1),#fff 48%,#fff 52%,var(--c3));
+    background-size:240% 100%;background-position:120% 0;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    opacity:0;transform:translateY(14px);animation:aceIn 7s cubic-bezier(.4,0,.2,1) infinite;}
+  @keyframes aceIn{
+    0%,32%{opacity:0;transform:translateY(14px);background-position:120% 0;}
+    46%{opacity:1;transform:translateY(0);background-position:120% 0;}
+    78%{opacity:1;background-position:-20% 0;}
+    92%{opacity:1;background-position:-20% 0;}
+    100%{opacity:0;transform:translateY(-8px);background-position:-20% 0;}
+  }
+  .sub{margin-top:14px;font-size:26px;font-weight:700;letter-spacing:8px;text-transform:uppercase;
+    background:linear-gradient(100deg,var(--c1),var(--c3));-webkit-background-clip:text;background-clip:text;color:transparent;
+    opacity:0;transform:translateY(8px);animation:subIn 7s cubic-bezier(.4,0,.2,1) infinite;}
+  @keyframes subIn{
+    0%,50%{opacity:0;transform:translateY(8px);}
+    64%{opacity:1;transform:translateY(0);}
+    92%{opacity:1;}
+    100%{opacity:0;}
+  }
+
+  /* CTA footer */
+  .cta{position:absolute;bottom:92px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:ctaIn 7s cubic-bezier(.4,0,.2,1) infinite;}
+  @keyframes ctaIn{0%,64%{opacity:0;transform:translateY(10px);}78%,92%{opacity:.92;transform:translateY(0);}100%{opacity:0;transform:translateY(0);}}
+  .cta .url{font-size:22px;letter-spacing:3px;color:var(--ice);font-family:Arial,sans-serif;}
+  .cta .tag{font-size:18px;letter-spacing:5px;text-transform:uppercase;color:#9fb3c8;font-weight:700;}
+  .cta .tag b{color:var(--c1);font-weight:700;}
+
+  /* vignette */
+  .vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 50%,transparent 58%,rgba(5,8,16,.7) 100%);}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="glow"></div>
+
+  <div class="particles">
+    <span class="p"></span><span class="p"></span><span class="p"></span>
+    <span class="p"></span><span class="p"></span><span class="p"></span>
+  </div>
+
+  <div class="orbit"><span class="dot"></span></div>
+
+  <div class="mark">
+    <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#26d9f0"/>
+          <stop offset="55%" stop-color="#6c5ce7"/>
+          <stop offset="100%" stop-color="#8b3ff5"/>
+        </linearGradient>
+      </defs>
+      <path id="s" d="M60,14 C 32,40 16,60 25,77 C 32,90 50,89 58,77 C 60,84 56,90 48,96 C 43,100 40,104 40,109 L 80,109 C 80,104 77,100 72,96 C 64,90 60,84 62,77 C 70,89 88,90 95,77 C 104,60 88,40 60,14 Z"/>
+      <use href="#s" class="spade-fill"   fill="url(#brandGrad)"/>
+      <use href="#s" class="spade-trace" fill="none" stroke="url(#brandGrad)" stroke-width="2.4" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div class="words" style="top:auto;bottom:auto;">
+    <div class="ace">ACE</div>
+    <div class="sub">Tech Solutions</div>
+  </div>
+
+  <div class="cta">
+    <div class="url">ace-techsolutions.vercel.app</div>
+    <div class="tag"><b>Build It.</b> Ship It. Dominate.</div>
+  </div>
+
+  <div class="vig"></div>
+</div>
+
+<script>
+  // The ACE headline currently sits dead-center over the mark.
+  // Shift it up so the mark stays visible behind it.
+  document.addEventListener('DOMContentLoaded', () => {
+    const w = document.querySelector('.words');
+    w.style.justifyContent = 'flex-start';
+    w.style.paddingTop = '232px';
+  });
+</script>
+</body>
+</html>

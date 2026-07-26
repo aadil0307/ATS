@@ -63,15 +63,15 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1100px] px-6 pb-24 pt-28 sm:px-10">
+      <div className="relative z-10 mx-auto w-full max-w-[1100px] px-6 pb-24 pt-28 sm:px-10 md:pt-32">
         <p
           data-hero-stagger
-          className="mb-5 inline-flex items-center gap-2 rounded-pill border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-cyan"
+          className="mb-5 inline-flex items-center gap-2 rounded-pill border border-white/15 bg-white/5 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan sm:px-4 sm:text-xs"
         >
           Premium Technology Partner
         </p>
 
-        <h1 className="font-display text-5xl font-black leading-[1.05] text-ice sm:text-7xl">
+        <h1 className="font-display text-4xl font-black leading-[1.1] text-ice sm:text-5xl md:text-6xl lg:text-7xl">
           <span data-hero-stagger className="block">
             {HEADLINES[index].pre}{" "}
             <AnimatePresence mode="wait">
@@ -91,18 +91,18 @@ export default function Hero() {
 
         <p
           data-hero-stagger
-          className="mt-6 max-w-xl text-lg leading-relaxed text-silver"
+          className="mt-6 max-w-xl text-base leading-relaxed text-silver sm:text-lg"
         >
           From funded startups to global enterprises — we design, build, and
           scale the software that moves your business forward. One agile,
           founder-led team.
         </p>
 
-        <div data-hero-stagger className="mt-9 flex flex-wrap items-center gap-4">
-          <Button href="/contact" className="px-7 py-3.5">
+        <div data-hero-stagger className="mt-8 flex flex-wrap items-center gap-3 sm:mt-9 sm:gap-4">
+          <Button href="/contact" className="px-5 py-3 sm:px-7 sm:py-3.5">
             Start a Project
           </Button>
-          <Button href="/portfolio" variant="ghost" className="px-7 py-3.5">
+          <Button href="/portfolio" variant="ghost" className="px-5 py-3 sm:px-7 sm:py-3.5">
             See Our Work
           </Button>
         </div>

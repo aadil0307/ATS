@@ -8,14 +8,14 @@ import { site, SOCIAL } from "@/lib/site";
 const SITE = site.url;
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contact Our Tech Experts",
   description:
-    "Let's build together. Reach Ace Tech Solutions on LinkedIn, Instagram, or email — we reply with a plan, not a pitch deck.",
+    "Ready to scale? Contact Ace Tech Solutions for enterprise software development, AI automation, and cloud consulting. Let's build your next digital product.",
   alternates: { canonical: `${SITE}/contact` },
   openGraph: {
-    title: "Contact — Ace Tech Solutions",
+    title: "Contact Our Tech Experts | Ace Tech Solutions",
     description:
-      "Let's build together. Reach Ace Tech Solutions on LinkedIn, Instagram, or email.",
+      "Ready to scale? Contact Ace Tech Solutions for enterprise software development, AI automation, and cloud consulting. Let's build your next digital product.",
     url: `${SITE}/contact`,
     siteName: "Ace Tech Solutions",
     type: "website",
@@ -84,23 +84,23 @@ export default function ContactPage() {
         title="Three ways to reach us"
         description="No forms, no friction. Pick the channel that suits you — we read every message and reply with a plan, not a pitch deck."
       >
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {CHANNELS.map((c, i) => (
             <Reveal key={c.label} delay={i * 0.06}>
               <a
                 href={c.href}
                 target={c.href.startsWith("mailto:") ? undefined : "_blank"}
                 rel={c.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-                className="group flex h-full flex-col rounded-lg border border-white/10 bg-white/[0.03] p-7 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_40px_rgba(26,26,255,0.12)]"
+                className="group flex h-full flex-col rounded-lg border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:shadow-[0_8px_40px_rgba(26,26,255,0.12)] sm:p-7"
               >
-                <div className="grid h-12 w-12 place-items-center rounded-xl bg-[linear-gradient(135deg,rgba(26,26,255,0.16),rgba(123,47,255,0.16))] text-ice transition-transform duration-300 group-hover:scale-105">
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-[linear-gradient(135deg,rgba(26,26,255,0.16),rgba(123,47,255,0.16))] text-ice transition-transform duration-300 group-hover:scale-105 sm:h-12 sm:w-12">
                   {c.glyph}
                 </div>
-                <h3 className="mt-6 text-xl font-bold text-ice">{c.label}</h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-silver">
+                <h3 className="mt-4 text-base font-bold text-ice sm:mt-6 sm:text-lg md:text-xl">{c.label}</h3>
+                <p className="mt-2 flex-1 text-xs leading-relaxed text-silver sm:text-sm">
                   {c.blurb}
                 </p>
-                <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-bright transition-transform group-hover:translate-x-1">
+                <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-blue-bright transition-transform group-hover:translate-x-1 sm:mt-6 sm:text-sm">
                   {c.cta} <span aria-hidden="true">→</span>
                 </span>
               </a>
@@ -110,25 +110,25 @@ export default function ContactPage() {
       </Section>
 
       <Section className="!pt-0">
-        <div className="relative overflow-hidden rounded-lg border border-white/10 bg-ink-soft/70 p-10 text-center sm:p-16">
-          <div className="aurora absolute inset-x-0 top-1/2 mx-auto h-[320px] max-w-[720px] -translate-y-1/2 opacity-40" aria-hidden="true" />
+        <div className="relative overflow-hidden rounded-lg border border-white/10 bg-ink-soft/70 p-6 text-center sm:p-10 md:p-16">
+          <div className="aurora absolute inset-x-0 top-1/2 mx-auto h-[240px] max-w-[720px] -translate-y-1/2 opacity-40 sm:h-[320px]" aria-hidden="true" />
           <div className="relative">
-            <h2 className="font-display text-4xl font-black text-ice sm:text-5xl">
+            <h2 className="font-display text-2xl font-black text-ice sm:text-3xl md:text-4xl lg:text-5xl">
               Ready to build something <span className="text-gradient">amazing?</span>
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-silver">
+            <p className="mx-auto mt-4 max-w-xl text-sm text-silver sm:mt-5 sm:text-base md:text-lg">
               Websites, AI-powered solutions, automation, and digital products —
               designed, built, and shipped by one accountable team.
             </p>
-            <div className="mt-9 flex flex-wrap justify-center gap-4">
-              <Button href={SOCIAL.instagram} className="px-7 py-3.5">
+            <div className="mt-6 flex flex-wrap justify-center gap-3 sm:mt-8 sm:gap-4">
+              <Button href={SOCIAL.instagram} className="px-5 py-3 sm:px-7 sm:py-3.5">
                 Start Your Project <span aria-hidden="true">→</span>
               </Button>
-              <Button href={site.phone.whatsapp} variant="ghost" className="px-7 py-3.5">
+              <Button href={site.phone.whatsapp} variant="ghost" className="px-5 py-3 sm:px-7 sm:py-3.5">
                 <span aria-hidden="true">💬</span> WhatsApp us
               </Button>
             </div>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-silver">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-silver sm:mt-8 sm:gap-x-6 sm:text-sm">
               <a
                 href={`mailto:${site.email}`}
                 className="transition-colors hover:text-ice"

@@ -10,14 +10,14 @@ import { SERVICES } from "@/lib/content/services";
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://acetech.in";
 
 export const metadata: Metadata = {
-  title: "Services",
+  title: "Enterprise Services & Solutions",
   description:
-    "Full-stack product development, AI & automation, cloud & DevOps, UI/UX, API integrations and security audits — delivered by a single accountable team.",
+    "End-to-end software development, AI integration, Cloud DevOps, and UX design. Ace Tech Solutions delivers scalable, high-performance technology that drives business growth.",
   alternates: { canonical: `${SITE}/services` },
   openGraph: {
-    title: "Services — Ace Tech Solutions",
+    title: "Enterprise Services & Solutions | Ace Tech Solutions",
     description:
-      "Full-stack product development, AI & automation, cloud & DevOps, UI/UX, API integrations and security audits.",
+      "End-to-end software development, AI integration, Cloud DevOps, and UX design. Ace Tech Solutions delivers scalable, high-performance technology that drives business growth.",
     url: `${SITE}/services`,
     siteName: "Ace Tech Solutions",
     type: "website",
@@ -78,13 +78,13 @@ export default function ServicesPage() {
         title="A process built to de-risk delivery"
         description="Four phases, every engagement. You always know what's shipping next and why."
       >
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {PROCESS.map((p, i) => (
             <Reveal key={p.step} delay={i * 0.06}>
-              <div className="h-full rounded-lg border border-white/10 bg-white/[0.03] p-7">
-                <div className="font-mono text-sm text-blue-bright">{p.step}</div>
-                <h3 className="mt-3 text-xl font-bold text-ice">{p.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-silver">
+              <div className="h-full rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-7">
+                <div className="font-mono text-xs text-blue-bright sm:text-sm">{p.step}</div>
+                <h3 className="mt-2 text-base font-bold text-ice sm:mt-3 sm:text-lg md:text-xl">{p.title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-silver sm:text-sm">
                   {p.desc}
                 </p>
               </div>
@@ -99,28 +99,28 @@ export default function ServicesPage() {
         title="What we build"
         description="Six core disciplines, brought together by a single delivery team."
       >
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((s, i) => (
             <Reveal key={s.title} delay={(i % 3) * 0.06}>
-              <TiltCard className="group h-full rounded-lg border border-white/10 bg-white/[0.03] p-7 transition-all duration-300 hover:border-white/20 hover:shadow-[0_8px_40px_rgba(26,26,255,0.12)]">
-                <div className="grid h-11 w-11 place-items-center rounded-xl bg-[linear-gradient(135deg,rgba(26,26,255,0.12),rgba(123,47,255,0.12))] text-xl">
+              <TiltCard className="group h-full rounded-lg border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:border-white/20 hover:shadow-[0_8px_40px_rgba(26,26,255,0.12)] sm:p-7">
+                <div className="grid h-10 w-10 place-items-center rounded-xl bg-[linear-gradient(135deg,rgba(26,26,255,0.12),rgba(123,47,255,0.12))] text-lg sm:h-11 sm:w-11 sm:text-xl">
                   <span aria-hidden="true">{s.icon}</span>
                 </div>
-                <div className="mt-5 flex items-center gap-3">
-                  <h3 className="text-lg font-bold text-ice">{s.title}</h3>
+                <div className="mt-4 flex items-center gap-2 sm:mt-5 sm:gap-3">
+                  <h3 className="text-base font-bold text-ice sm:text-lg">{s.title}</h3>
                   <Tag variant="cyan">{s.tag}</Tag>
                 </div>
-                <p className="mt-2 text-sm leading-relaxed text-silver">
+                <p className="mt-2 text-xs leading-relaxed text-silver sm:text-sm">
                   {s.desc}
                 </p>
-                <ul className="mt-5 space-y-2">
+                <ul className="mt-4 space-y-2 sm:mt-5">
                   {s.points.map((pt) => (
                     <li
                       key={pt}
-                      className="flex items-start gap-2 text-sm text-silver"
+                      className="flex items-start gap-2 text-xs text-silver sm:text-sm"
                     >
                       <span
-                        className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-bright"
+                        className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-bright"
                         aria-hidden="true"
                       />
                       {pt}
@@ -138,11 +138,11 @@ export default function ServicesPage() {
         title="Technologies we trust"
         description="Modern, battle-tested tools — chosen for velocity and longevity, not hype."
       >
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2 sm:gap-3">
           {STACK.map((t) => (
             <span
               key={t}
-              className="rounded-pill border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-medium text-silver transition-colors hover:border-white/25 hover:text-ice"
+              className="rounded-pill border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-medium text-silver transition-colors hover:border-white/25 hover:text-ice sm:px-4 sm:py-2 sm:text-sm"
             >
               {t}
             </span>

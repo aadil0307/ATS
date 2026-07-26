@@ -1,22 +1,25 @@
 import Section from "@/components/ui/Section";
-import Reveal from "@/components/ui/Reveal";
 import TiltCard from "@/components/ui/TiltCard";
 import { TESTIMONIALS } from "@/lib/content/testimonials";
 
 export default function Testimonials() {
+  const row = [...TESTIMONIALS, ...TESTIMONIALS]; // Duplicate for infinite scroll
+  
   return (
     <Section
       eyebrow="What Our Clients Say"
       title="Trusted by innovative companies"
       description="Hear from founders and tech leaders who've worked with us to ship real products."
+      className="overflow-hidden"
     >
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {TESTIMONIALS.map((testimonial) => (
-          <Reveal key={testimonial.name} delay={TESTIMONIALS.indexOf(testimonial) * 0.04}>
+      <div className="ticker-mask w-full">
+        <div className="ticker-track gap-4 pb-8 pt-4 sm:gap-6">
+          {row.map((testimonial, i) => (
             <TiltCard
-              className="group rounded-lg border border-white/10 bg-white/[0.03] p-8 transition-all duration-300 hover:border-white/20 hover:shadow-[0_8px_40px_rgba(26,26,255,0.12)]"
+              key={`${testimonial.name}-${i}`}
+              className="group w-[300px] sm:w-[350px] md:w-[400px] shrink-0 rounded-lg border border-white/10 bg-white/[0.03] p-6 transition-all duration-300 hover:border-white/20 hover:shadow-[0_8px_40px_rgba(26,26,255,0.12)] sm:p-8"
             >
-              <div className="space-y-6">
+              <div className="flex h-full flex-col justify-between space-y-6">
                 <p className="text-sm leading-relaxed text-silver/80 italic">
                   “{testimonial.text}”
                 </p>
@@ -32,8 +35,8 @@ export default function Testimonials() {
                 </div>
               </div>
             </TiltCard>
-          </Reveal>
-        ))}
+          ))}
+        </div>
       </div>
     </Section>
   );

@@ -1,4 +1,4 @@
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://acetech.in";
+import { site, SOCIAL } from "@/lib/site";
 
 export default function StructuredData() {
   const data = {
@@ -6,17 +6,36 @@ export default function StructuredData() {
     "@graph": [
       {
         "@type": "Organization",
-        name: "Ace Tech Solutions",
-        url: SITE,
-        description:
-          "A premium technology partner. We build digital products, scale engineering teams, and ship fast.",
+        "@id": `${site.url}/#organization`,
+        name: site.name,
+        url: site.url,
+        logo: `${site.url}/logo/ace.png`,
+        image: `${site.url}/logo/ace.png`,
+        description: "Ace Tech Solutions is a premium technology partner. We build digital products, scale engineering teams, and ship fast — from funded startups to global enterprises.",
+        sameAs: [
+          SOCIAL.linkedin,
+          SOCIAL.twitter,
+          SOCIAL.instagram
+        ].filter(Boolean),
+        contactPoint: {
+          "@type": "ContactPoint",
+          telephone: site.phone.display,
+          contactType: "customer service",
+          email: site.email,
+          availableLanguage: ["English"]
+        }
       },
       {
         "@type": "WebSite",
-        name: "Ace Tech Solutions",
-        url: SITE,
-      },
-    ],
+        "@id": `${site.url}/#website`,
+        url: site.url,
+        name: site.name,
+        description: "Ace Tech Solutions | Elite Software Development & AI Agency",
+        publisher: {
+          "@id": `${site.url}/#organization`
+        }
+      }
+    ]
   };
 
   return (

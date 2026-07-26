@@ -8,14 +8,14 @@ import { CASES } from "@/lib/content/cases";
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://acetech.in";
 
 export const metadata: Metadata = {
-  title: "Portfolio",
+  title: "Client Portfolio & Case Studies",
   description:
-    "Selected engagements where the right architecture moved a real business metric — fintech, AI, commerce and health-tech.",
+    "Explore our track record of success. See how Ace Tech Solutions has transformed businesses with scalable software, AI, and robust digital products.",
   alternates: { canonical: `${SITE}/portfolio` },
   openGraph: {
-    title: "Portfolio — Ace Tech Solutions",
+    title: "Client Portfolio & Case Studies | Ace Tech Solutions",
     description:
-      "Selected engagements where the right architecture moved a real business metric — fintech, AI, commerce and health-tech.",
+      "Explore our track record of success. See how Ace Tech Solutions has transformed businesses with scalable software, AI, and robust digital products.",
     url: `${SITE}/portfolio`,
     siteName: "Ace Tech Solutions",
     type: "website",
@@ -45,12 +45,12 @@ export default function PortfolioPage() {
         title="What partners say"
         description="We measure ourselves by the outcomes, not the output."
       >
-        <figure className="relative overflow-hidden rounded-lg border border-white/10 bg-ink-soft/60 p-10 sm:p-14">
+        <figure className="relative overflow-hidden rounded-lg border border-white/10 bg-ink-soft/60 p-6 sm:p-10 md:p-14">
           <div
-            className="aurora absolute -right-10 -top-10 h-64 w-64 opacity-25"
+            className="aurora absolute -right-10 -top-10 h-48 w-48 opacity-25 sm:h-64 sm:w-64"
             aria-hidden="true"
           />
-          <blockquote className="relative font-display text-2xl font-medium leading-snug text-ice sm:text-3xl">
+          <blockquote className="relative font-display text-lg font-medium leading-snug text-ice sm:text-xl md:text-2xl lg:text-3xl">
             “{QUOTE.text}”
           </blockquote>
           <figcaption className="relative mt-6 text-sm font-semibold text-blue-bright">

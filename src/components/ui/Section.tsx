@@ -21,24 +21,24 @@ export default function Section({
   return (
     <section
       id={id}
-      className={`relative py-24 sm:py-32 ${className ?? ""}`}
+      className={`relative py-16 sm:py-24 md:py-32 ${className ?? ""}`}
     >
       <div className="mx-auto w-full max-w-[1100px] px-6 sm:px-10">
         {hasHeader && (
-          <Reveal className="mb-14">
+          <Reveal className="mb-10 sm:mb-14">
             {eyebrow && (
-              <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.14em] text-blue-bright">
+              <p className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.14em] text-blue-bright sm:text-xs">
                 {eyebrow}
                 <span className="h-px max-w-[60px] flex-1 bg-white/15" />
               </p>
             )}
             {title && (
-              <h2 className="mt-3 font-display text-3xl font-bold leading-tight text-ice sm:text-5xl">
+              <h2 className="mt-3 font-display text-2xl font-bold leading-tight text-ice sm:text-3xl md:text-4xl lg:text-5xl">
                 {title}
               </h2>
             )}
             {description && (
-              <p className="mt-5 max-w-[680px] text-base leading-relaxed text-silver">
+              <p className="mt-4 max-w-[680px] text-sm leading-relaxed text-silver sm:mt-5 sm:text-base">
                 {description}
               </p>
             )}

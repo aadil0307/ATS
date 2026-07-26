@@ -3,7 +3,7 @@ import Button from "@/components/ui/Button";
 import Logo from "@/components/layout/Logo";
 import { site, socialLinks } from "@/lib/site";
 
-const YEAR = 2026;
+const YEAR = 2024;
 
 const COLUMNS = [
   {

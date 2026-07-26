@@ -35,19 +35,6 @@ export const SERVICES: Service[] = [
     ],
   },
   {
-    icon: "🎤",
-    title: "AI & Voice Agents",
-    desc: "Voice-enabled AI agents, conversational AI, voice bots and speech-to-text solutions.",
-    tag: "P0",
-    accent: "violet",
-    points: [
-      "Custom voice AI agents",
-      "Natural language processing",
-      "Speech recognition & synthesis",
-      "Voice bot integration",
-    ],
-  },
-  {
     icon: "☁️",
     title: "Cloud & DevOps",
     desc: "AWS/GCP setup, CI/CD pipelines, Kubernetes, monitoring and cost optimization.",
@@ -84,6 +71,19 @@ export const SERVICES: Service[] = [
       "Design systems & component libraries",
       "Prototyping & usability testing",
       "WCAG accessibility audits",
+    ],
+  },
+  {
+    icon: "📱",
+    title: "Mobile Development",
+    desc: "Native and cross-platform mobile apps for iOS and Android built for scale and performance.",
+    tag: "P1",
+    accent: "blue",
+    points: [
+      "React Native & Expo",
+      "Flutter development",
+      "Native iOS (Swift) & Android (Kotlin)",
+      "App store deployment & optimization",
     ],
   },
   {

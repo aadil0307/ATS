@@ -27,16 +27,38 @@ export default function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    // Stop Lenis from hijacking scroll/touch while the mobile menu is open
+    const lenis = (
+      window as unknown as { lenis?: { stop: () => void; start: () => void } }
+    ).lenis;
+    if (lenis) open ? lenis.stop() : lenis.start();
     return () => {
       document.body.style.overflow = "";
+      if (lenis) lenis.start();
     };
   }, [open]);
+
+  // Close the menu on Escape
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  // Close the menu if the viewport grows back to desktop
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const onChange = (e: MediaQueryListEvent) => e.matches && setOpen(false);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   return (
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-[9990] transition-colors duration-300",
-        scrolled ? "bg-void/70 backdrop-blur-xl" : "bg-transparent",
+        scrolled && !open ? "bg-void/70 backdrop-blur-xl" : "bg-transparent",
       )}
     >
       <nav className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6 sm:h-20 sm:px-10">
@@ -61,8 +83,9 @@ export default function Navbar() {
           type="button"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
+          aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
-          className="relative z-[9992] grid h-10 w-10 place-items-center rounded-md md:hidden"
+          className="relative z-[9992] grid h-11 w-11 touch-manipulation place-items-center rounded-md md:hidden"
         >
           <span className="relative block h-4 w-6">
             <span
@@ -87,16 +110,25 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Mobile full-screen overlay — clip-path circle reveal */}
+      {/* Mobile full-screen overlay */}
       <div
+        id="mobile-menu"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Main navigation"
         className={cn(
-          "fixed inset-0 z-[9991] bg-void/95 backdrop-blur-2xl transition-[clip-path] duration-500 [transition-timing-function:cubic-bezier(0.77,0,0.175,1)] md:hidden",
+          "fixed inset-0 z-[9991] bg-void/95 backdrop-blur-xl md:hidden transition-all duration-300 ease-out",
           open
-            ? "clip-path-[circle(150%_at_100%_0%)]"
-            : "pointer-events-none clip-path-[circle(0%_at_100%_0%)]",
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none hidden",
         )}
       >
-        <div className="flex h-full flex-col justify-center gap-2 px-10">
+        <div
+          className={cn(
+            "flex h-full flex-col justify-center gap-2 overflow-y-auto px-8 py-20 transition-transform duration-500",
+            open ? "translate-y-0" : "translate-y-8",
+          )}
+        >
           {LINKS.map((l) => (
             <Link
               key={l.href}

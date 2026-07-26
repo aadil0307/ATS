@@ -57,14 +57,14 @@ const STATS = [
 
 export default function Stats() {
   return (
-    <section className="relative border-y border-white/10 bg-ink-soft/40 py-20">
-      <div className="mx-auto grid max-w-[1100px] grid-cols-2 gap-10 px-6 sm:px-10 md:grid-cols-4">
+    <section className="relative border-y border-white/10 bg-ink-soft/40 py-16 sm:py-20">
+      <div className="mx-auto grid max-w-[1100px] grid-cols-2 gap-8 px-6 sm:gap-10 sm:px-10 md:grid-cols-4">
         {STATS.map((s) => (
           <div key={s.label} className="text-center">
-            <div className="font-display text-5xl font-black text-gradient sm:text-6xl">
+            <div className="font-display text-3xl font-black text-gradient sm:text-4xl md:text-5xl lg:text-6xl">
               <CountUp to={s.to} prefix={s.prefix} suffix={s.suffix} />
             </div>
-            <div className="mt-2 text-sm text-silver">{s.label}</div>
+            <div className="mt-2 text-xs text-silver sm:text-sm">{s.label}</div>
           </div>
         ))}
       </div>
