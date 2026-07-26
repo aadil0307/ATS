@@ -22,6 +22,18 @@ export default function Hero() {
   const reduce = useReducedMotion();
   const rootRef = useRef<HTMLElement>(null);
   const [index, setIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile devices
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 ||
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Cycle the accent phrase
   useEffect(() => {
@@ -56,7 +68,7 @@ export default function Hero() {
     >
       <div className="absolute inset-0 grid-backdrop opacity-50" aria-hidden="true" />
       <div className="absolute inset-0" aria-hidden="true">
-        {reduce ? <HeroScene /> : <HeroCanvas />}
+        {reduce || isMobile ? <HeroScene /> : <HeroCanvas />}
       </div>
       <div
         className="pointer-events-none absolute inset-0 bg-gradient-to-b from-void/10 via-void/30 to-void"
