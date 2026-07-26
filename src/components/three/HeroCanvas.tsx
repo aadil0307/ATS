@@ -12,8 +12,8 @@ import * as THREE from "three";
 
 // Detect if mobile for particle count optimization
 const IS_MOBILE = typeof window !== 'undefined' && window.innerWidth < 768;
-const PARTICLE_COUNT = IS_MOBILE ? 800 : 2800; // Reduced for mobile
-const SPEED_MULTIPLIER = IS_MOBILE ? 3 : 5; // 3x on mobile, 5x on desktop
+const PARTICLE_COUNT = IS_MOBILE ? 200 : 2800; // Drastically reduced for mobile
+const SPEED_MULTIPLIER = IS_MOBILE ? 1.5 : 5; // 1.5x on mobile, 5x on desktop
 
 const PARTICLE_POSITIONS = (() => {
   const arr = new Float32Array(PARTICLE_COUNT * 3);
@@ -63,7 +63,7 @@ const GLOW = (() => {
 })();
 
 // Neural-net globe: nodes on the sphere surface + links between near ones.
-const NODE_COUNT = IS_MOBILE ? 48 : 96; // Reduced for mobile
+const NODE_COUNT = IS_MOBILE ? 24 : 96; // Further reduced for mobile (was 48)
 const NODES = (() => {
   const arr = new Float32Array(NODE_COUNT * 3);
   const dirs: Array<[number, number, number]> = [];
@@ -332,23 +332,23 @@ function Rig() {
   const group = useRef<THREE.Group>(null);
   useFrame((state) => {
     if (!group.current) return;
-    const tx = state.pointer.x * 0.25; // Increased from 0.05 (5x more sensitive)
-    const ty = state.pointer.y * 0.15; // Increased from 0.03 (5x more sensitive)
-    group.current.rotation.y += (tx - group.current.rotation.y) * 0.1; // Increased from 0.01 (10x faster response)
-    group.current.rotation.x += (-ty - group.current.rotation.x) * 0.1; // Increased from 0.01 (10x faster response)
+    const tx = state.pointer.x * 0.25;
+    const ty = state.pointer.y * 0.15;
+    group.current.rotation.y += (tx - group.current.rotation.y) * 0.1;
+    group.current.rotation.x += (-ty - group.current.rotation.x) * 0.1;
     group.current.rotation.z += 0.0001 * SPEED_MULTIPLIER;
   });
   return (
     <group ref={group}>
-      <Stars radius={70} depth={45} count={IS_MOBILE ? 900 : 1800} factor={3} saturation={0} fade speed={0.6 * SPEED_MULTIPLIER} />
+      <Stars radius={70} depth={45} count={IS_MOBILE ? 300 : 1800} factor={3} saturation={0} fade speed={0.6 * SPEED_MULTIPLIER} />
       <NeuralGlobe />
       <Core />
       <Rings />
-      {SHARDS.map((s, i) => (
+      {SHARDS.slice(0, IS_MOBILE ? 3 : 5).map((s, i) => (
         <Shard key={i} {...s} />
       ))}
       <Comet />
-      <Sparkles count={IS_MOBILE ? 35 : 70} scale={[11, 11, 7]} size={3} speed={0.4 * SPEED_MULTIPLIER} color="#7b2fff" opacity={0.6} />
+      <Sparkles count={IS_MOBILE ? 10 : 70} scale={[11, 11, 7]} size={3} speed={0.4 * SPEED_MULTIPLIER} color="#7b2fff" opacity={0.6} />
       <Particles />
     </group>
   );
@@ -359,23 +359,27 @@ export default function HeroCanvas() {
     <Canvas
       className="!absolute inset-0"
       camera={{ position: [0, 0, 12], fov: 50 }}
-      dpr={typeof window !== 'undefined' && window.innerWidth < 768 ? [1, 1.5] : [1, 2]}
+      dpr={typeof window !== 'undefined' && window.innerWidth < 768 ? [0.75, 1] : [1, 2]}
       gl={{
-        antialias: true,
+        antialias: typeof window !== 'undefined' && window.innerWidth >= 768,
         alpha: true,
-        powerPreference: "high-performance",
+        powerPreference: typeof window !== 'undefined' && window.innerWidth < 768 ? "default" : "high-performance",
+        stencil: false,
+        depth: true,
       }}
       performance={{ min: 0.5 }}
     >
       <Rig />
-      <EffectComposer>
-        <Bloom
-          mipmapBlur
-          intensity={1.4}
-          luminanceThreshold={0.2}
-          luminanceSmoothing={0.3}
-        />
-      </EffectComposer>
+      {typeof window !== 'undefined' && window.innerWidth >= 768 && (
+        <EffectComposer>
+          <Bloom
+            mipmapBlur
+            intensity={1.4}
+            luminanceThreshold={0.2}
+            luminanceSmoothing={0.3}
+          />
+        </EffectComposer>
+      )}
     </Canvas>
   );
 }
