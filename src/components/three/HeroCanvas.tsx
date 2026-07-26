@@ -101,8 +101,8 @@ function Particles() {
   const ref = useRef<THREE.Points>(null);
   useFrame((_, d) => {
     if (!ref.current) return;
-    ref.current.rotation.y += d * 0.03;
-    ref.current.rotation.x += d * 0.008;
+    ref.current.rotation.y += d * 0.015;
+    ref.current.rotation.x += d * 0.004;
   });
   return (
     <points ref={ref}>
@@ -132,18 +132,18 @@ function NeuralGlobe() {
   const nodesRef = useRef<THREE.Points>(null);
   useFrame((state, d) => {
     if (!ref.current) return;
-    ref.current.rotation.y += d * 0.16;
-    const tx = state.pointer.x * 0.3;
-    const ty = state.pointer.y * 0.2;
-    ref.current.rotation.x += (ty - ref.current.rotation.x) * 0.04;
-    ref.current.rotation.z += (tx - ref.current.rotation.z) * 0.04;
+    ref.current.rotation.y += d * 0.08;
+    const tx = state.pointer.x * 0.15;
+    const ty = state.pointer.y * 0.1;
+    ref.current.rotation.x += (ty - ref.current.rotation.x) * 0.02;
+    ref.current.rotation.z += (tx - ref.current.rotation.z) * 0.02;
     const t = performance.now();
     if (linksRef.current)
       (linksRef.current.material as THREE.LineBasicMaterial).opacity =
-        0.12 + (Math.sin(t * 0.002) * 0.5 + 0.5) * 0.28;
+        0.12 + (Math.sin(t * 0.001) * 0.5 + 0.5) * 0.28;
     if (nodesRef.current)
       (nodesRef.current.material as THREE.PointsMaterial).opacity =
-        0.6 + Math.sin(t * 0.003) * 0.35;
+        0.6 + Math.sin(t * 0.0015) * 0.35;
   });
   return (
     <group ref={ref}>
@@ -195,9 +195,9 @@ function Core() {
   const ref = useRef<THREE.Mesh>(null);
   const inner = useRef<THREE.Mesh>(null);
   useFrame((_, d) => {
-    if (ref.current) ref.current.rotation.y -= d * 0.25;
+    if (ref.current) ref.current.rotation.y -= d * 0.12;
     if (inner.current) {
-      const s = 1 + Math.sin(performance.now() * 0.0015) * 0.08;
+      const s = 1 + Math.sin(performance.now() * 0.0008) * 0.08;
       inner.current.scale.setScalar(s);
     }
   });
@@ -238,11 +238,11 @@ type ShardCfg = {
 };
 
 const SHARDS: ShardCfg[] = [
-  { kind: "tetrahedron", r: 4.6, s: 0.55, speed: 0.5, tilt: 0.4, color: "#00d4ff", phase: 0 },
-  { kind: "octahedron", r: 5.4, s: 0.62, speed: -0.4, tilt: -0.3, color: "#7b2fff", phase: 1.3 },
-  { kind: "icosahedron", r: 6.2, s: 0.45, speed: 0.32, tilt: 0.6, color: "#1a1aff", phase: 2.6 },
-  { kind: "tetrahedron", r: 5.0, s: 0.42, speed: 0.62, tilt: -0.5, color: "#00d4ff", phase: 3.9 },
-  { kind: "octahedron", r: 6.9, s: 0.5, speed: -0.26, tilt: 0.2, color: "#7b2fff", phase: 5.2 },
+  { kind: "tetrahedron", r: 4.6, s: 0.55, speed: 0.25, tilt: 0.4, color: "#00d4ff", phase: 0 },
+  { kind: "octahedron", r: 5.4, s: 0.62, speed: -0.2, tilt: -0.3, color: "#7b2fff", phase: 1.3 },
+  { kind: "icosahedron", r: 6.2, s: 0.45, speed: 0.16, tilt: 0.6, color: "#1a1aff", phase: 2.6 },
+  { kind: "tetrahedron", r: 5.0, s: 0.42, speed: 0.31, tilt: -0.5, color: "#00d4ff", phase: 3.9 },
+  { kind: "octahedron", r: 6.9, s: 0.5, speed: -0.13, tilt: 0.2, color: "#7b2fff", phase: 5.2 },
 ];
 
 function Shard({ kind, r, s, speed, tilt, color, phase }: ShardCfg) {
@@ -288,12 +288,12 @@ function Rings() {
   const b = useRef<THREE.Mesh>(null);
   useFrame((_, d) => {
     if (a.current) {
-      a.current.rotation.x += d * 0.2;
-      a.current.rotation.z += d * 0.1;
+      a.current.rotation.x += d * 0.1;
+      a.current.rotation.z += d * 0.05;
     }
     if (b.current) {
-      b.current.rotation.y += d * 0.15;
-      b.current.rotation.x -= d * 0.08;
+      b.current.rotation.y += d * 0.075;
+      b.current.rotation.x -= d * 0.04;
     }
   });
   return (
@@ -349,11 +349,11 @@ function Rig() {
   const group = useRef<THREE.Group>(null);
   useFrame((state) => {
     if (!group.current) return;
-    const tx = state.pointer.x * 0.4;
-    const ty = state.pointer.y * 0.25;
-    group.current.rotation.y += (tx - group.current.rotation.y) * 0.05;
-    group.current.rotation.x += (-ty - group.current.rotation.x) * 0.05;
-    group.current.rotation.z += 0.0008;
+    const tx = state.pointer.x * 0.2;
+    const ty = state.pointer.y * 0.12;
+    group.current.rotation.y += (tx - group.current.rotation.y) * 0.02;
+    group.current.rotation.x += (-ty - group.current.rotation.x) * 0.02;
+    group.current.rotation.z += 0.0003;
   });
   return (
     <group ref={group}>
