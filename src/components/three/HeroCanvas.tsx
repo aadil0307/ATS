@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Sparkles, Stars, Float, Trail } from "@react-three/drei";
+import { Sparkles, Stars, Trail } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { useRef } from "react";
 import * as THREE from "three";
@@ -101,8 +101,8 @@ function Particles() {
   const ref = useRef<THREE.Points>(null);
   useFrame((_, d) => {
     if (!ref.current) return;
-    ref.current.rotation.y += d * 0.015;
-    ref.current.rotation.x += d * 0.004;
+    ref.current.rotation.y += d * 0.005;
+    ref.current.rotation.x += d * 0.002;
   });
   return (
     <points ref={ref}>
@@ -128,22 +128,9 @@ function Particles() {
 
 function NeuralGlobe() {
   const ref = useRef<THREE.Group>(null);
-  const linksRef = useRef<THREE.LineSegments>(null);
-  const nodesRef = useRef<THREE.Points>(null);
   useFrame((state, d) => {
     if (!ref.current) return;
-    ref.current.rotation.y += d * 0.08;
-    const tx = state.pointer.x * 0.15;
-    const ty = state.pointer.y * 0.1;
-    ref.current.rotation.x += (ty - ref.current.rotation.x) * 0.02;
-    ref.current.rotation.z += (tx - ref.current.rotation.z) * 0.02;
-    const t = performance.now();
-    if (linksRef.current)
-      (linksRef.current.material as THREE.LineBasicMaterial).opacity =
-        0.12 + (Math.sin(t * 0.001) * 0.5 + 0.5) * 0.28;
-    if (nodesRef.current)
-      (nodesRef.current.material as THREE.PointsMaterial).opacity =
-        0.6 + Math.sin(t * 0.0015) * 0.35;
+    ref.current.rotation.y += d * 0.02;
   });
   return (
     <group ref={ref}>
@@ -157,7 +144,7 @@ function NeuralGlobe() {
           toneMapped={false}
         />
       </mesh>
-      <lineSegments ref={linksRef}>
+      <lineSegments>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[LINKS, 3]} />
         </bufferGeometry>
@@ -170,7 +157,7 @@ function NeuralGlobe() {
           toneMapped={false}
         />
       </lineSegments>
-      <points ref={nodesRef}>
+      <points>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[NODES.arr, 3]} />
         </bufferGeometry>
@@ -193,13 +180,8 @@ function NeuralGlobe() {
 
 function Core() {
   const ref = useRef<THREE.Mesh>(null);
-  const inner = useRef<THREE.Mesh>(null);
   useFrame((_, d) => {
-    if (ref.current) ref.current.rotation.y -= d * 0.12;
-    if (inner.current) {
-      const s = 1 + Math.sin(performance.now() * 0.0008) * 0.08;
-      inner.current.scale.setScalar(s);
-    }
+    if (ref.current) ref.current.rotation.y -= d * 0.05;
   });
   return (
     <group>
@@ -213,7 +195,7 @@ function Core() {
           toneMapped={false}
         />
       </mesh>
-      <mesh ref={inner}>
+      <mesh>
         <icosahedronGeometry args={[0.9, 0]} />
         <meshBasicMaterial
           color="#00d4ff"
@@ -238,11 +220,11 @@ type ShardCfg = {
 };
 
 const SHARDS: ShardCfg[] = [
-  { kind: "tetrahedron", r: 4.6, s: 0.55, speed: 0.25, tilt: 0.4, color: "#00d4ff", phase: 0 },
-  { kind: "octahedron", r: 5.4, s: 0.62, speed: -0.2, tilt: -0.3, color: "#7b2fff", phase: 1.3 },
-  { kind: "icosahedron", r: 6.2, s: 0.45, speed: 0.16, tilt: 0.6, color: "#1a1aff", phase: 2.6 },
-  { kind: "tetrahedron", r: 5.0, s: 0.42, speed: 0.31, tilt: -0.5, color: "#00d4ff", phase: 3.9 },
-  { kind: "octahedron", r: 6.9, s: 0.5, speed: -0.13, tilt: 0.2, color: "#7b2fff", phase: 5.2 },
+  { kind: "tetrahedron", r: 4.6, s: 0.55, speed: 0.1, tilt: 0.4, color: "#00d4ff", phase: 0 },
+  { kind: "octahedron", r: 5.4, s: 0.62, speed: -0.08, tilt: -0.3, color: "#7b2fff", phase: 1.3 },
+  { kind: "icosahedron", r: 6.2, s: 0.45, speed: 0.06, tilt: 0.6, color: "#1a1aff", phase: 2.6 },
+  { kind: "tetrahedron", r: 5.0, s: 0.42, speed: 0.12, tilt: -0.5, color: "#00d4ff", phase: 3.9 },
+  { kind: "octahedron", r: 6.9, s: 0.5, speed: -0.05, tilt: 0.2, color: "#7b2fff", phase: 5.2 },
 ];
 
 function Shard({ kind, r, s, speed, tilt, color, phase }: ShardCfg) {
@@ -256,29 +238,27 @@ function Shard({ kind, r, s, speed, tilt, color, phase }: ShardCfg) {
       Math.sin(t.current * 1.2) * r * 0.5,
       Math.sin(t.current) * r,
     );
-    ref.current.rotation.x += d * 0.4;
-    ref.current.rotation.y += d * 0.3;
+    ref.current.rotation.x += d * 0.1;
+    ref.current.rotation.y += d * 0.08;
   });
   return (
     <group ref={ref} rotation={[tilt, tilt, 0]}>
-      <Float speed={2} rotationIntensity={0.6} floatIntensity={0.8}>
-        <mesh>
-          {kind === "tetrahedron" ? (
-            <tetrahedronGeometry args={[s, 0]} />
-          ) : kind === "octahedron" ? (
-            <octahedronGeometry args={[s, 0]} />
-          ) : (
-            <icosahedronGeometry args={[s, 0]} />
-          )}
-          <meshBasicMaterial
-            color={color}
-            wireframe
-            transparent
-            opacity={0.55}
-            toneMapped={false}
-          />
-        </mesh>
-      </Float>
+      <mesh>
+        {kind === "tetrahedron" ? (
+          <tetrahedronGeometry args={[s, 0]} />
+        ) : kind === "octahedron" ? (
+          <octahedronGeometry args={[s, 0]} />
+        ) : (
+          <icosahedronGeometry args={[s, 0]} />
+        )}
+        <meshBasicMaterial
+          color={color}
+          wireframe
+          transparent
+          opacity={0.55}
+          toneMapped={false}
+        />
+      </mesh>
     </group>
   );
 }
@@ -288,12 +268,12 @@ function Rings() {
   const b = useRef<THREE.Mesh>(null);
   useFrame((_, d) => {
     if (a.current) {
-      a.current.rotation.x += d * 0.1;
-      a.current.rotation.z += d * 0.05;
+      a.current.rotation.x += d * 0.03;
+      a.current.rotation.z += d * 0.02;
     }
     if (b.current) {
-      b.current.rotation.y += d * 0.075;
-      b.current.rotation.x -= d * 0.04;
+      b.current.rotation.y += d * 0.025;
+      b.current.rotation.x -= d * 0.015;
     }
   });
   return (
@@ -326,7 +306,7 @@ function Comet() {
   const ref = useRef<THREE.Mesh>(null);
   const t = useRef(0);
   useFrame((_, d) => {
-    t.current += d * 0.6;
+    t.current += d * 0.2;
     if (!ref.current) return;
     const r = 4.4;
     ref.current.position.set(
@@ -349,11 +329,11 @@ function Rig() {
   const group = useRef<THREE.Group>(null);
   useFrame((state) => {
     if (!group.current) return;
-    const tx = state.pointer.x * 0.2;
-    const ty = state.pointer.y * 0.12;
-    group.current.rotation.y += (tx - group.current.rotation.y) * 0.02;
-    group.current.rotation.x += (-ty - group.current.rotation.x) * 0.02;
-    group.current.rotation.z += 0.0003;
+    const tx = state.pointer.x * 0.05;
+    const ty = state.pointer.y * 0.03;
+    group.current.rotation.y += (tx - group.current.rotation.y) * 0.01;
+    group.current.rotation.x += (-ty - group.current.rotation.x) * 0.01;
+    group.current.rotation.z += 0.0001;
   });
   return (
     <group ref={group}>
